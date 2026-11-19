@@ -1,0 +1,670 @@
+{
+  "model_name": "nvidia/nemotron-3.5-lightning:free",
+  "mock_mode": false,
+  "target_document_id": "doc_5593b687be94",
+  "overall_metrics": {
+    "total_evaluated": 9,
+    "faithfulness": 0.8186,
+    "context_precision": 0.7333,
+    "context_recall": 0.9019,
+    "answer_relevance": 0.7389,
+    "answer_correctness": 0.6054,
+    "citation_accuracy": 1.0,
+    "out_of_syllabus_accuracy": 1.0,
+    "no_document_accuracy": 1.0
+  },
+  "latency_summary": {
+    "retrieval_mean_sec": 0.921,
+    "generation_mean_sec": 9.494,
+    "total_mean_sec": 11.459,
+    "total_min_sec": 4.938,
+    "total_max_sec": 21.171,
+    "total_p50_sec": 9.39,
+    "total_p95_sec": 21.171
+  },
+  "target_thresholds": {
+    "faithfulness": 0.85,
+    "context_precision": 0.8,
+    "context_recall": 0.8,
+    "answer_relevance": 0.75,
+    "citation_accuracy": 0.9,
+    "out_of_syllabus_accuracy": 0.95,
+    "no_document_accuracy": 1.0
+  },
+  "category_breakdown": {
+    "conceptual_questions": {
+      "count": 3,
+      "faithfulness": 0.8323,
+      "context_precision": 0.7333,
+      "context_recall": 0.8389,
+      "answer_relevance": 0.6497,
+      "answer_correctness": 0.3721,
+      "citation_accuracy": 1.0,
+      "total_mean_latency_sec": 10.334
+    },
+    "direct_questions": {
+      "count": 6,
+      "faithfulness": 0.8118,
+      "context_precision": 0.7333,
+      "context_recall": 0.9333,
+      "answer_relevance": 0.7835,
+      "answer_correctness": 0.7221,
+      "citation_accuracy": 1.0,
+      "total_mean_latency_sec": 12.022
+    }
+  },
+  "results": [
+    {
+      "id": "eval_01",
+      "category": "direct_questions",
+      "question": "What is Supervised Learning according to the compendium?",
+      "ground_truth_answer": "Supervised Learning is a training paradigm where models are optimized using labeled datasets containing pairs of inputs xi and targets yi to learn a mapping function.",
+      "generated_answer": "### Supervised Learning\nAccording to the compendium, **Supervised Learning** is defined as:\n\n> A training paradigm where models are optimized using labeled datasets containing pairs of inputs $x_i$ and targets $y_i$. The objective is to learn a mapping function $f: X \\rightarrow Y$ that minimizes a predefined empirical risk loss function across unseen distributions.\n\n**Key takeaways from the text:**\n- Employs **labeled data** with explicit input–target pairs ($x_i, y_i$)  \n- Aims to learn a **mapping function** $f: X \\rightarrow Y$  \n- Optimization targets a **predefined empirical risk loss function**  \n- Generalization goal: performance across **unseen distributions**",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_d432c75f",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume I: Foundations, Paradigms, & Core Statistical Mechanics\n1. FOUNDATIONS & LEARNING PARADIGMS\nSupervised Learning PARADIGM\nA training paradigm where models are optimized using labeled datasets containing pair...",
+          "relevance_score": 0.7625
+        },
+        {
+          "citation_id": "cit_c0a48205",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c2",
+          "relevant_text_snippet": "unseen distributions.\nUnsupervised Learning PARADIGM\nAlgorithmic paradigms operating on unlabeled data to extract latent structures, underlying probability density functions,\nor intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error sig...",
+          "relevance_score": 0.7241
+        },
+        {
+          "citation_id": "cit_f69016a9",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c4",
+          "relevant_text_snippet": "cumulative return.\nSelf-Supervised Learning (SSL) PARADIGM\nA formulation where pretext tasks generate supervision signals directly from unlabelled data features (e.g., masked\ntoken prediction, contrastive representation learning), enabling rich representation learning without man...",
+          "relevance_score": 0.7199
+        },
+        {
+          "citation_id": "cit_28edc091",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c3",
+          "relevant_text_snippet": "assumptions such as cluster smoothness and manifold alignment to improve decision boundary precision.\nReinforcement Learning (RL) PARADIGM\nA decision-making framework where an agent learns optimal behavioral policies π(a|s) within a Markov Decision\nProcess (MDP) by interacting wi...",
+          "relevance_score": 0.7048
+        },
+        {
+          "citation_id": "cit_abec0dba",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 5,
+          "chunk_id": "doc_5593b687be94_p5_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume V: Convolutional & Recurrent Neural Architectures\n9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)\nConvolutional Operator & Kernel COMPUTER VISION\nSpatial feature extraction operation sliding parameterized ﬁlter wei...",
+          "relevance_score": 0.6932
+        }
+      ],
+      "retrieval_latency_sec": 0.613,
+      "generation_latency_sec": 6.57,
+      "total_latency_sec": 8.446,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "faithfulness": 0.8889,
+      "answer_relevance": 0.8071,
+      "answer_correctness": 0.7857,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_02",
+      "category": "direct_questions",
+      "question": "What is the Curse of Dimensionality?",
+      "ground_truth_answer": "The Curse of Dimensionality refers to the exponential proliferation of feature space volume as dimensions grow, leading to data sparsity and Euclidean distance degradation.",
+      "generated_answer": "### Curse of Dimensionality\n**Source:** *Machine Learning & Deep Learning: Comprehensive Terminology Compendium* (Page 1)\n\nThe **Curse of Dimensionality** is defined as:\n\n> *\"The exponential proliferation of feature space volume as dimensions grow, leading to sample sparsity, loss of distance metric contrast (e.g., Euclidean distance convergence), and severe computational degradation.\"*\n\nIt is categorized under **DATA THEORY** in the compendium. The core issue is that as the number of dimensions increases, the volume of the feature space expands exponentially, causing data points to become increasingly sparse. This sparsity undermines the effectiveness of distance-based methods (such as Euclidean distance), degrades the performance of many ML algorithms, and significantly increases computational demands.",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_b079640a",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c6",
+          "relevant_text_snippet": "tokens or entities, structured such that geometric proximity reﬂects semantic similarity.\nCurse of Dimensionality DATA THEORY\nThe exponential proliferation of feature space volume as dimensions grow, leading to sample sparsity, loss of distance\nmetric contrast (e.g., Euclidean di...",
+          "relevance_score": 0.8019
+        },
+        {
+          "citation_id": "cit_c154365c",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 4,
+          "chunk_id": "doc_5593b687be94_p4_c3",
+          "relevant_text_snippet": "Vanishing & Exploding Gradients OPTIMIZATION PATHOLOGY\nPathologies occurring during backpropagation across deep layers where gradients exponentially decay to zero\n(stopping training) or explode to inﬁnity (instability), driven by spectral radius of weight matrices and activation\n...",
+          "relevance_score": 0.6725
+        },
+        {
+          "citation_id": "cit_d3b5c3d8",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c5",
+          "relevant_text_snippet": "space deﬁnes the vector space spanned by these dimensions.\nOne-Hot Encoding PRE-PROCESSING\nA categorical transformation method mapping a discrete variable with K categories into a binary vector of length K,\ncontaining exactly one 1 and K−1 zeros, ensuring no implicit ordinal hier...",
+          "relevance_score": 0.6531
+        },
+        {
+          "citation_id": "cit_1f4e02a3",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c2",
+          "relevant_text_snippet": "unseen distributions.\nUnsupervised Learning PARADIGM\nAlgorithmic paradigms operating on unlabeled data to extract latent structures, underlying probability density functions,\nor intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error sig...",
+          "relevance_score": 0.6523
+        },
+        {
+          "citation_id": "cit_4f6974d9",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume II: Generalization, Optimization, & Model Evaluation\n3. GENERALIZATION & REGULARIZATION DYNAMICS\nBias-Variance Tradeoff STATISTICAL THEORY\nDecomposition of generalization error into three fundamental compon...",
+          "relevance_score": 0.6517
+        }
+      ],
+      "retrieval_latency_sec": 0.517,
+      "generation_latency_sec": 4.36,
+      "total_latency_sec": 6.891,
+      "context_precision": 0.8,
+      "context_recall": 0.9,
+      "faithfulness": 0.75,
+      "answer_relevance": 0.7737,
+      "answer_correctness": 0.7795,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_03",
+      "category": "direct_questions",
+      "question": "Define Principal Component Analysis (PCA).",
+      "ground_truth_answer": "Principal Component Analysis (PCA) is a linear orthogonal transformation that projects data onto a lower-dimensional subspace aligned with directions of maximum covariance (eigenvectors).",
+      "generated_answer": "**Principal Component Analysis (PCA)**\n\nBased on the provided excerpts:\n\n- **Definition & Mechanism**: PCA is a **dimensionality reduction** technique that performs a **linear orthogonal transformation**, projecting data onto a **lower-dimensional subspace** aligned with the **directions of maximum covariance** (the **eigenvectors of the data covariance matrix**), while **preserving maximum variance** ([Excerpt 1, Page 3]).\n\n- **Paradigm Context**: PCA is classified under **Unsupervised Learning** paradigms, which operate on unlabeled data to extract latent structures, underlying probability density functions, or intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error signal guidance ([Excerpt 2, Page 1]).\n\n**Summary**: PCA is a linear, orthogonal projection method that reduces data dimensionality by identifying and retaining the directions (eigenvectors) along which the data varies the most (maximum covariance), thereby preserving the most variance in a lower-dimensional space. It is a core unsupervised learning tool for extracting latent structure from unlabeled data.",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_7a05fa00",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 3,
+          "chunk_id": "doc_5593b687be94_p3_c5",
+          "relevant_text_snippet": "Principal Component Analysis (PCA) DIMENSIONALITY REDUCTION\nLinear orthogonal transformation projecting data onto lower-dimensional subspace aligned with directions of\nmaximum covariance (eigenvectors of data covariance matrix), preserving maximum variance.\nML & DL Technical Term...",
+          "relevance_score": 0.8157
+        },
+        {
+          "citation_id": "cit_dfa296f3",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c2",
+          "relevant_text_snippet": "unseen distributions.\nUnsupervised Learning PARADIGM\nAlgorithmic paradigms operating on unlabeled data to extract latent structures, underlying probability density functions,\nor intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error sig...",
+          "relevance_score": 0.6786
+        },
+        {
+          "citation_id": "cit_3d988ca8",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 3,
+          "chunk_id": "doc_5593b687be94_p3_c4",
+          "relevant_text_snippet": "Gradient Boosting Machines (GBM / XGBoost) ENSEMBLE\nBoosting strategy iteratively ﬁtting weak learners (typically shallow trees) to negative gradients of pseudo-residuals\ncalculated from loss functions, achieving high predictive power.\n6. CLASSICAL UNSUPERVISED ALGORITHMS\nK-Means...",
+          "relevance_score": 0.6544
+        },
+        {
+          "citation_id": "cit_31b69ace",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 5,
+          "chunk_id": "doc_5593b687be94_p5_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume V: Convolutional & Recurrent Neural Architectures\n9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)\nConvolutional Operator & Kernel COMPUTER VISION\nSpatial feature extraction operation sliding parameterized ﬁlter wei...",
+          "relevance_score": 0.6499
+        },
+        {
+          "citation_id": "cit_f89b1c41",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c5",
+          "relevant_text_snippet": "evaluation.\nMean Squared Error\n(MSE)N-1 ∑ (yi - ŷi)2 Regression target optimization sensitive to extreme outlier\ndeviations.\nCross-Validation (K-Fold) EVALUATION\nA resampling procedure where data is partitioned into K equal folds. The model is trained on K−1 folds and tested on\nt...",
+          "relevance_score": 0.6467
+        }
+      ],
+      "retrieval_latency_sec": 2.528,
+      "generation_latency_sec": 7.25,
+      "total_latency_sec": 13.07,
+      "context_precision": 0.6,
+      "context_recall": 1.0,
+      "faithfulness": 0.8571,
+      "answer_relevance": 0.6559,
+      "answer_correctness": 0.7655,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_04",
+      "category": "direct_questions",
+      "question": "What is Scaled Dot-Product Attention?",
+      "ground_truth_answer": "Scaled Dot-Product Attention computes query-key matrix multiplication divided by the square root of key dimensions and normalized with softmax to weight value vectors.",
+      "generated_answer": "### Scaled Dot-Product Attention  \n*(Source: Compendium, p. 6)*  \n\nAn attention mechanism that proceeds in three steps:  \n- **Similarity scoring**: Computes dot‑product scores between the **Query (Q)** and **Key (K)** projection matrices.  \n- **Scaling**: Divides the scores by the square root of the key dimension (**√dk**) to maintain gradient stability as dimension increases.  \n- **Weighted aggregation**: Applies the **Softmax** function to obtain normalized attention weights, then uses these weights to linearly combine the **Value (V)** matrices.  \n\n**Formal definition (as given in the compendium):**  \n`Attention(Q, K, V) = softmax( (Q KT) / √dk ) V`",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_9e519ba3",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume VI: Modern Transformer Architectures & Attention Mechanics\n11. ATTENTION MECHANISMS & TRANSFORMERS\nScaled Dot-Product Attention CORE MECHANISM\nAttention mechanism calculating similarity scores between Query...",
+          "relevance_score": 0.8005
+        },
+        {
+          "citation_id": "cit_101dac4f",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c2",
+          "relevant_text_snippet": "Multi-Head Attention (MHA) ARCHITECTURE\nParallel projection of Queries, Keys, and Values into h distinct linear subspaces. Allows models to jointly attend to\ninformation from different representation subspaces at different positions simultaneously.\nPositional Encoding (Absolute /...",
+          "relevance_score": 0.7062
+        },
+        {
+          "citation_id": "cit_ce489642",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c4",
+          "relevant_text_snippet": "Precision TP / (TP + FP) High cost of False Positives (e.g., Spam Filtering, Fraud\nAlerts).\nRecall (Sensitivity) TP / (TP + FN) High cost of False Negatives (e.g., Medical Diagnostics,\nSafety Alarms).\nF1-Score 2 × (Precision × Recall) / (Precision +\nRecall)Harmonic mean evaluatin...",
+          "relevance_score": 0.6798
+        },
+        {
+          "citation_id": "cit_1e227693",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c3",
+          "relevant_text_snippet": "Transformer Paradigms MODEL TAXONOMY\nEncoder-Only (e.g., BERT): Bidirectional attention optimized for feature extraction and classiﬁcation.\nDecoder-Only (e.g., GPT): Causal autoregressive masked attention for sequence generation.\nEncoder-Decoder (e.g., T5): Full seq2seq transform...",
+          "relevance_score": 0.6544
+        },
+        {
+          "citation_id": "cit_9c9166eb",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c2",
+          "relevant_text_snippet": "unseen distributions.\nUnsupervised Learning PARADIGM\nAlgorithmic paradigms operating on unlabeled data to extract latent structures, underlying probability density functions,\nor intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error sig...",
+          "relevance_score": 0.6537
+        }
+      ],
+      "retrieval_latency_sec": 0.1,
+      "generation_latency_sec": 14.13,
+      "total_latency_sec": 21.171,
+      "context_precision": 0.8,
+      "context_recall": 1.0,
+      "faithfulness": 0.625,
+      "answer_relevance": 0.7912,
+      "answer_correctness": 0.5041,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_05",
+      "category": "direct_questions",
+      "question": "What is Mixture of Experts (MoE)?",
+      "ground_truth_answer": "Mixture of Experts (MoE) replaces dense feed-forward layers with sparse gated routing mechanisms across conditional sub-networks.",
+      "generated_answer": "### Mixture of Experts (MoE)\n**Definition (from compendium, Page 8):** Mixture of Experts (MoE) replaces dense feed-forward layers with **sparse gated routing mechanisms** across **conditional sub-networks**.  \n**Primary Application:** It is employed in **ultra-scale foundation models** such as **Mixtral** and **GPT-4** to enhance model capacity and computational efficiency.\n\n*Source: Machine Learning & Deep Learning — Comprehensive Technical Terminology Compendium, p. 8*",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_fadf76a2",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 8,
+          "chunk_id": "doc_5593b687be94_p8_c6",
+          "relevant_text_snippet": "Applications, Healthcare Records.\nMixture of Experts\n(MoE)Replaces dense feed-forward layers with sparse gated\nrouting mechanisms across conditional sub-networks.Ultra-scale Foundation Models (e.g.,\nMixtral, GPT-4).\nML & DL Technical Terminology Compendium Page 8 of 8",
+          "relevance_score": 0.8851
+        },
+        {
+          "citation_id": "cit_2e9e65b1",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 3,
+          "chunk_id": "doc_5593b687be94_p3_c4",
+          "relevant_text_snippet": "Gradient Boosting Machines (GBM / XGBoost) ENSEMBLE\nBoosting strategy iteratively ﬁtting weak learners (typically shallow trees) to negative gradients of pseudo-residuals\ncalculated from loss functions, achieving high predictive power.\n6. CLASSICAL UNSUPERVISED ALGORITHMS\nK-Means...",
+          "relevance_score": 0.6314
+        },
+        {
+          "citation_id": "cit_b82a9443",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 3,
+          "chunk_id": "doc_5593b687be94_p3_c3",
+          "relevant_text_snippet": "separation is achieved via the Kernel Trick K(x, x') = ⟨Φ(x), Φ(x') ⟩ without explicit high-dimensional mapping.\nRandom Forests & Bagging ENSEMBLE\nBootstrap Aggregating (Bagging) ensemble constructed from de-correlated decision trees. Trains individual trees on\nbootstrap data sam...",
+          "relevance_score": 0.6298
+        },
+        {
+          "citation_id": "cit_496e991c",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 8,
+          "chunk_id": "doc_5593b687be94_p8_c4",
+          "relevant_text_snippet": "(TP): Splits individual layer matrices (e.g., MHA linear layers) across multiple compute devices.\nExplainable AI (XAI: SHAP & LIME) INTERPRETABILITY\nMethods for interpreting complex black-box model predictions. SHAP (Shapley Additive exPlanations): Uses gametheoretic Shapley valu...",
+          "relevance_score": 0.6257
+        },
+        {
+          "citation_id": "cit_37c9ab67",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 3,
+          "chunk_id": "doc_5593b687be94_p3_c2",
+          "relevant_text_snippet": "Decision Trees & Entropy / Gini Impurity NON-PARAMETRIC\nHierarchical decision models splitting data recursively based on feature thresholds. Splits optimize information gain\nusing Entropy H(S) = -∑ pi log2 pi or Gini Impurity G = 1 - ∑ pi2.\nSupport Vector Machines (SVM) & Kernel ...",
+          "relevance_score": 0.622
+        }
+      ],
+      "retrieval_latency_sec": 4.342,
+      "generation_latency_sec": 7.69,
+      "total_latency_sec": 7.772,
+      "context_precision": 0.4,
+      "context_recall": 0.9,
+      "faithfulness": 0.75,
+      "answer_relevance": 0.8012,
+      "answer_correctness": 0.8615,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_06",
+      "category": "direct_questions",
+      "question": "What is Mean Squared Error (MSE)?",
+      "ground_truth_answer": "Mean Squared Error (MSE) is a regression target optimization metric computed as the mean of squared differences between targets and predictions, sensitive to extreme outlier deviations.",
+      "generated_answer": "### Mean Squared Error (MSE)\n**Definition (from compendium, Page 2):**  \n`MSE: N‑1 ∑ (yᵢ – ŷᵢ)²`  \n\n**Primary Operational Context:**  \nRegression target optimization that is **sensitive to extreme outlier deviations**.  \n\n- **Formula:** \\( N^{-1} \\sum_{i=1}^{N} (y",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_9f0f36a2",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c5",
+          "relevant_text_snippet": "evaluation.\nMean Squared Error\n(MSE)N-1 ∑ (yi - ŷi)2 Regression target optimization sensitive to extreme outlier\ndeviations.\nCross-Validation (K-Fold) EVALUATION\nA resampling procedure where data is partitioned into K equal folds. The model is trained on K−1 folds and tested on\nt...",
+          "relevance_score": 0.7364
+        },
+        {
+          "citation_id": "cit_e408b797",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c4",
+          "relevant_text_snippet": "Precision TP / (TP + FP) High cost of False Positives (e.g., Spam Filtering, Fraud\nAlerts).\nRecall (Sensitivity) TP / (TP + FN) High cost of False Negatives (e.g., Medical Diagnostics,\nSafety Alarms).\nF1-Score 2 × (Precision × Recall) / (Precision +\nRecall)Harmonic mean evaluatin...",
+          "relevance_score": 0.6595
+        },
+        {
+          "citation_id": "cit_ad1cdf98",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c3",
+          "relevant_text_snippet": "sparsity. L2 adds λ ∑ wi2 penalizing large weights and smoothing weight distributions.\nDropout NEURAL REGULARIZATION\nA stochastic regularizer that randomly zeroes out unit activation probabilities with probability p during forward\npropagation in training, breaking co-adaptation o...",
+          "relevance_score": 0.6079
+        },
+        {
+          "citation_id": "cit_cd871eb9",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume II: Generalization, Optimization, & Model Evaluation\n3. GENERALIZATION & REGULARIZATION DYNAMICS\nBias-Variance Tradeoff STATISTICAL THEORY\nDecomposition of generalization error into three fundamental compon...",
+          "relevance_score": 0.6055
+        },
+        {
+          "citation_id": "cit_54ea9581",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 8,
+          "chunk_id": "doc_5593b687be94_p8_c2",
+          "relevant_text_snippet": "improving complex mathematical and logical problem solving.\nMachine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume IX: MLOps, System Execution, & Specialized Fields\n16. MLOPS, SYSTEM EXECUTION, & HARDWARE ACCELERATION\nData Drift vs. Concept Drift MODEL MONITORI...",
+          "relevance_score": 0.5854
+        }
+      ],
+      "retrieval_latency_sec": 0.01,
+      "generation_latency_sec": 14.68,
+      "total_latency_sec": 14.781,
+      "context_precision": 0.8,
+      "context_recall": 0.8,
+      "faithfulness": 1.0,
+      "answer_relevance": 0.8717,
+      "answer_correctness": 0.6363,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_07",
+      "category": "conceptual_questions",
+      "question": "Why is the Curse of Dimensionality problematic for machine learning algorithms?",
+      "ground_truth_answer": "As feature dimensions grow exponentially, the volume of feature space increases rapidly causing data to become sparse. Distances between all data points become uniformly large, degrading distance-based metrics.",
+      "generated_answer": "### Why the Curse of Dimensionality is Problematic for Machine Learning Algorithms\n\nPer the **Machine Learning & Deep Learning Technical Terminology Compendium** (p. 1), the Curse of Dimensionality is problematic because it induces the following issues as the number of features/dimensions grows:\n\n- **Exponential proliferation of feature space volume** – The volume of the feature space increases exponentially with each added dimension, causing data to become increasingly sparse.\n- **Sample sparsity** – With high dimensionality, data points are far apart relative to the space, resulting in very few samples per region and hindering effective learning.\n- **Loss of distance metric contrast** – Distances between instances (e.g., Euclidean distance) tend to converge toward uniformity, reducing an algorithm's ability to distinguish between \"near\" and \"far\" points.\n- **Severe computational degradation** – The rapid growth in dimensionality leads to significant increases in computational cost and memory usage, degrading both training and inference feasibility.\n\nThese combined effects undermine the reliability and efficiency of many machine learning algorithms, particularly those dependent on distance calculations, density estimation, or dense data distributions.",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_1047aef1",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c6",
+          "relevant_text_snippet": "tokens or entities, structured such that geometric proximity reﬂects semantic similarity.\nCurse of Dimensionality DATA THEORY\nThe exponential proliferation of feature space volume as dimensions grow, leading to sample sparsity, loss of distance\nmetric contrast (e.g., Euclidean di...",
+          "relevance_score": 0.7845
+        },
+        {
+          "citation_id": "cit_9411ba42",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 3,
+          "chunk_id": "doc_5593b687be94_p3_c2",
+          "relevant_text_snippet": "Decision Trees & Entropy / Gini Impurity NON-PARAMETRIC\nHierarchical decision models splitting data recursively based on feature thresholds. Splits optimize information gain\nusing Entropy H(S) = -∑ pi log2 pi or Gini Impurity G = 1 - ∑ pi2.\nSupport Vector Machines (SVM) & Kernel ...",
+          "relevance_score": 0.7209
+        },
+        {
+          "citation_id": "cit_a900119f",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 1,
+          "chunk_id": "doc_5593b687be94_p1_c2",
+          "relevant_text_snippet": "unseen distributions.\nUnsupervised Learning PARADIGM\nAlgorithmic paradigms operating on unlabeled data to extract latent structures, underlying probability density functions,\nor intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error sig...",
+          "relevance_score": 0.7145
+        },
+        {
+          "citation_id": "cit_e736e9ce",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 4,
+          "chunk_id": "doc_5593b687be94_p4_c3",
+          "relevant_text_snippet": "Vanishing & Exploding Gradients OPTIMIZATION PATHOLOGY\nPathologies occurring during backpropagation across deep layers where gradients exponentially decay to zero\n(stopping training) or explode to inﬁnity (instability), driven by spectral radius of weight matrices and activation\n...",
+          "relevance_score": 0.7031
+        },
+        {
+          "citation_id": "cit_bd340330",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume II: Generalization, Optimization, & Model Evaluation\n3. GENERALIZATION & REGULARIZATION DYNAMICS\nBias-Variance Tradeoff STATISTICAL THEORY\nDecomposition of generalization error into three fundamental compon...",
+          "relevance_score": 0.6981
+        }
+      ],
+      "retrieval_latency_sec": 0.031,
+      "generation_latency_sec": 9.33,
+      "total_latency_sec": 9.39,
+      "context_precision": 0.8,
+      "context_recall": 0.8,
+      "faithfulness": 0.5556,
+      "answer_relevance": 0.7916,
+      "answer_correctness": 0.5391,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_08",
+      "category": "conceptual_questions",
+      "question": "Why do Transformers use Scaled Dot-Product Attention instead of recurrent loops?",
+      "ground_truth_answer": "Scaled Dot-Product Attention allows models to attend to all positions simultaneously across sequence tokens via parallel matrix multiplications, eliminating sequential bottlenecking inherent in recurrent architectures.",
+      "generated_answer": "Based on your uploaded document, here are the key relevant excerpts:\n\n• Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume VI: Modern Transformer Architectures & Attention Mechanics\n11. ATTENTION MECHANISMS & TRANSFORMERS\nScaled ...\n• Multi-Head Attention (MHA) ARCHITECTURE\nParallel projection of Queries, Keys, and Values into h distinct linear subspaces. Allows models to jointly attend to\ninformation from diffe...\n• Transformer Paradigms MODEL TAXONOMY\nEncoder-Only (e.g., BERT): Bidirectional attention optimized for feature extraction and classiﬁcation.\nDecoder-Only (e.g., GPT): Causal autoreg...\n• Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume V: Convolutional & Recurrent Neural Architectures\n9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)\nConvolutional Op...",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_3edc652e",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume VI: Modern Transformer Architectures & Attention Mechanics\n11. ATTENTION MECHANISMS & TRANSFORMERS\nScaled Dot-Product Attention CORE MECHANISM\nAttention mechanism calculating similarity scores between Query...",
+          "relevance_score": 0.7672
+        },
+        {
+          "citation_id": "cit_c25b192a",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c2",
+          "relevant_text_snippet": "Multi-Head Attention (MHA) ARCHITECTURE\nParallel projection of Queries, Keys, and Values into h distinct linear subspaces. Allows models to jointly attend to\ninformation from different representation subspaces at different positions simultaneously.\nPositional Encoding (Absolute /...",
+          "relevance_score": 0.7335
+        },
+        {
+          "citation_id": "cit_d14cdcf5",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c3",
+          "relevant_text_snippet": "Transformer Paradigms MODEL TAXONOMY\nEncoder-Only (e.g., BERT): Bidirectional attention optimized for feature extraction and classiﬁcation.\nDecoder-Only (e.g., GPT): Causal autoregressive masked attention for sequence generation.\nEncoder-Decoder (e.g., T5): Full seq2seq transform...",
+          "relevance_score": 0.7248
+        },
+        {
+          "citation_id": "cit_e19539ca",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 5,
+          "chunk_id": "doc_5593b687be94_p5_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume V: Convolutional & Recurrent Neural Architectures\n9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)\nConvolutional Operator & Kernel COMPUTER VISION\nSpatial feature extraction operation sliding parameterized ﬁlter wei...",
+          "relevance_score": 0.7093
+        },
+        {
+          "citation_id": "cit_17603a60",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 4,
+          "chunk_id": "doc_5593b687be94_p4_c2",
+          "relevant_text_snippet": "ReLU: f(x) = max(0, x) (Mitigates vanishing gradient in positive domain).\nSigmoid: f(x) = 1 / (1 + e-x) (Squeezes inputs to (0, 1) interval).\nGELU / Swish: Smooth non-monotonic activations used in modern transformers.\nBackpropagation GRADIENT COMPUTATION\nAlgorithm applying multiv...",
+          "relevance_score": 0.6995
+        }
+      ],
+      "retrieval_latency_sec": 0.015,
+      "generation_latency_sec": 16.61,
+      "total_latency_sec": 16.675,
+      "context_precision": 1.0,
+      "context_recall": 0.8,
+      "faithfulness": 0.9412,
+      "answer_relevance": 0.4656,
+      "answer_correctness": 0.3124,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    },
+    {
+      "id": "eval_09",
+      "category": "conceptual_questions",
+      "question": "What is the purpose of the Reparameterization Trick in Variational Autoencoders?",
+      "ground_truth_answer": "The Reparameterization Trick allows gradients to backpropagate through stochastic latent sampling by expressing the latent variable z as a deterministic function of mean, variance, and independent noise epsilon.",
+      "generated_answer": "According to the provided document, the **Reparameterization Trick** in Variational Autoencoders (VAEs) serves to **allow backpropagation through stochastic sampling**. \n\nVAEs are described as probabilistic generative models that learn latent spaces mapped to standard distributions (e.g., Gaussian) via encoder networks. The trick enables gradient-based optimization by reparameterizing the stochastic sampling process, making it compatible with backpropagation.",
+      "answer_status": "grounded",
+      "retrieved_chunk_count": 5,
+      "citation_count": 5,
+      "citations": [
+        {
+          "citation_id": "cit_aebfdefe",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 7,
+          "chunk_id": "doc_5593b687be94_p7_c2",
+          "relevant_text_snippet": "Variational Autoencoders (VAEs) LATENT VARIABLE\nProbabilistic generative models learning latent spaces mapped to standard distributions (e.g., Gaussian) via Encoder\nnetworks. Uses the Reparameterization Trick to allow backpropagation through stochastic sampling.\nDiffusion Models ...",
+          "relevance_score": 0.7938
+        },
+        {
+          "citation_id": "cit_320dbb4b",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 2,
+          "chunk_id": "doc_5593b687be94_p2_c3",
+          "relevant_text_snippet": "sparsity. L2 adds λ ∑ wi2 penalizing large weights and smoothing weight distributions.\nDropout NEURAL REGULARIZATION\nA stochastic regularizer that randomly zeroes out unit activation probabilities with probability p during forward\npropagation in training, breaking co-adaptation o...",
+          "relevance_score": 0.7557
+        },
+        {
+          "citation_id": "cit_d7a85450",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 6,
+          "chunk_id": "doc_5593b687be94_p6_c3",
+          "relevant_text_snippet": "Transformer Paradigms MODEL TAXONOMY\nEncoder-Only (e.g., BERT): Bidirectional attention optimized for feature extraction and classiﬁcation.\nDecoder-Only (e.g., GPT): Causal autoregressive masked attention for sequence generation.\nEncoder-Decoder (e.g., T5): Full seq2seq transform...",
+          "relevance_score": 0.7236
+        },
+        {
+          "citation_id": "cit_d1982c8f",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 5,
+          "chunk_id": "doc_5593b687be94_p5_c1",
+          "relevant_text_snippet": "Machine Learning & Deep Learning: Technical\nTerminology Compendium\nVolume V: Convolutional & Recurrent Neural Architectures\n9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)\nConvolutional Operator & Kernel COMPUTER VISION\nSpatial feature extraction operation sliding parameterized ﬁlter wei...",
+          "relevance_score": 0.7231
+        },
+        {
+          "citation_id": "cit_ace2d9ed",
+          "document_id": "doc_5593b687be94",
+          "filename": "Machine_Learning_&_Deep_Learning__Comprehensive_Technical_Terminology_Compendium.pdf",
+          "page_number": 4,
+          "chunk_id": "doc_5593b687be94_p4_c2",
+          "relevant_text_snippet": "ReLU: f(x) = max(0, x) (Mitigates vanishing gradient in positive domain).\nSigmoid: f(x) = 1 / (1 + e-x) (Squeezes inputs to (0, 1) interval).\nGELU / Swish: Smooth non-monotonic activations used in modern transformers.\nBackpropagation GRADIENT COMPUTATION\nAlgorithm applying multiv...",
+          "relevance_score": 0.7212
+        }
+      ],
+      "retrieval_latency_sec": 0.131,
+      "generation_latency_sec": 4.83,
+      "total_latency_sec": 4.938,
+      "context_precision": 0.4,
+      "context_recall": 0.9167,
+      "faithfulness": 1.0,
+      "answer_relevance": 0.6918,
+      "answer_correctness": 0.2647,
+      "citation_accuracy": 1.0,
+      "out_of_syllabus_accuracy": 1.0,
+      "no_document_accuracy": 1.0
+    }
+  ]
+}

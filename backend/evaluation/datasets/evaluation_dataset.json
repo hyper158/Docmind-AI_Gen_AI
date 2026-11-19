@@ -1,0 +1,542 @@
+[
+  {
+    "id": "eval_01",
+    "category": "direct_questions",
+    "question": "What is Supervised Learning according to the compendium?",
+    "ground_truth_answer": "Supervised Learning is a training paradigm where models are optimized using labeled datasets containing pairs of inputs xi and targets yi to learn a mapping function.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Supervised Learning", "labeled datasets", "inputs", "targets", "mapping function"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_02",
+    "category": "direct_questions",
+    "question": "What is the Curse of Dimensionality?",
+    "ground_truth_answer": "The Curse of Dimensionality refers to the exponential proliferation of feature space volume as dimensions grow, leading to data sparsity and Euclidean distance degradation.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Curse of Dimensionality", "exponential proliferation", "feature space", "data sparsity", "distance"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_03",
+    "category": "direct_questions",
+    "question": "Define Principal Component Analysis (PCA).",
+    "ground_truth_answer": "Principal Component Analysis (PCA) is a linear orthogonal transformation that projects data onto a lower-dimensional subspace aligned with directions of maximum covariance (eigenvectors).",
+    "ground_truth_pages": [3],
+    "key_terms": ["Principal Component Analysis", "PCA", "linear orthogonal transformation", "maximum covariance", "eigenvectors"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_04",
+    "category": "direct_questions",
+    "question": "What is Scaled Dot-Product Attention?",
+    "ground_truth_answer": "Scaled Dot-Product Attention computes query-key matrix multiplication divided by the square root of key dimensions and normalized with softmax to weight value vectors.",
+    "ground_truth_pages": [6],
+    "key_terms": ["Scaled Dot-Product Attention", "Query", "Key", "Value", "softmax", "square root"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_05",
+    "category": "direct_questions",
+    "question": "What is Mixture of Experts (MoE)?",
+    "ground_truth_answer": "Mixture of Experts (MoE) replaces dense feed-forward layers with sparse gated routing mechanisms across conditional sub-networks.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Mixture of Experts", "MoE", "dense feed-forward", "sparse gated routing", "conditional sub-networks"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_06",
+    "category": "direct_questions",
+    "question": "What is Mean Squared Error (MSE)?",
+    "ground_truth_answer": "Mean Squared Error (MSE) is a regression target optimization metric computed as the mean of squared differences between targets and predictions, sensitive to extreme outlier deviations.",
+    "ground_truth_pages": [2],
+    "key_terms": ["Mean Squared Error", "MSE", "regression", "squared differences", "outliers"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_07",
+    "category": "conceptual_questions",
+    "question": "Why is the Curse of Dimensionality problematic for machine learning algorithms?",
+    "ground_truth_answer": "As feature dimensions grow exponentially, the volume of feature space increases rapidly causing data to become sparse. Distances between all data points become uniformly large, degrading distance-based metrics.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Curse of Dimensionality", "data sparsity", "distance degradation", "feature space", "exponential"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_08",
+    "category": "conceptual_questions",
+    "question": "Why do Transformers use Scaled Dot-Product Attention instead of recurrent loops?",
+    "ground_truth_answer": "Scaled Dot-Product Attention allows models to attend to all positions simultaneously across sequence tokens via parallel matrix multiplications, eliminating sequential bottlenecking inherent in recurrent architectures.",
+    "ground_truth_pages": [6],
+    "key_terms": ["Attention", "parallel", "matrix multiplication", "tokens", "Transformers"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_09",
+    "category": "conceptual_questions",
+    "question": "What is the purpose of the Reparameterization Trick in Variational Autoencoders?",
+    "ground_truth_answer": "The Reparameterization Trick allows gradients to backpropagate through stochastic latent sampling by expressing the latent variable z as a deterministic function of mean, variance, and independent noise epsilon.",
+    "ground_truth_pages": [7],
+    "key_terms": ["Reparameterization Trick", "Variational Autoencoders", "VAEs", "backpropagate", "latent", "gradients"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_10",
+    "category": "conceptual_questions",
+    "question": "Why is K-Fold Cross-Validation important when evaluating machine learning models?",
+    "ground_truth_answer": "K-Fold Cross-Validation partitions data into K subsets, training on K-1 folds and validating on the remaining fold iteratively to ensure robust evaluation and prevent overfitting.",
+    "ground_truth_pages": [2],
+    "key_terms": ["Cross-Validation", "K-Fold", "resampling", "overfitting", "evaluation", "subsets"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_11",
+    "category": "conceptual_questions",
+    "question": "How does Principal Component Analysis reduce dimensionality while preserving information?",
+    "ground_truth_answer": "PCA finds orthogonal directions of maximum covariance (eigenvectors) and projects high-dimensional data onto the top principal components, retaining maximum statistical variance.",
+    "ground_truth_pages": [3],
+    "key_terms": ["PCA", "orthogonal", "covariance", "eigenvectors", "variance", "dimensionality"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_12",
+    "category": "conceptual_questions",
+    "question": "Why is Retrieval-Augmented Generation (RAG) used with Large Language Models?",
+    "ground_truth_answer": "RAG combines vector search with generative LLMs to ground responses in external documents, reducing hallucinations and enabling models to access current or domain-specific study material.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Retrieval-Augmented Generation", "RAG", "vector search", "generative models", "grounding", "hallucinations"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_13",
+    "category": "comparison_questions",
+    "question": "Differentiate between Supervised Learning and Unsupervised Learning.",
+    "ground_truth_answer": "Supervised Learning optimizes models using labeled input-target pairs (xi, yi) to learn mapping functions. Unsupervised Learning operates on unlabeled data to extract latent structures, clusters, and underlying distributions.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Supervised Learning", "Unsupervised Learning", "labeled datasets", "unlabeled data", "clusters", "latent structures"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_14",
+    "category": "comparison_questions",
+    "question": "Compare Encoder-Only models like BERT with Decoder-Only models like GPT.",
+    "ground_truth_answer": "Encoder-Only models like BERT utilize bidirectional attention optimized for feature extraction and representation learning. Decoder-Only models like GPT utilize causal auto-regressive masking optimized for generation.",
+    "ground_truth_pages": [6],
+    "key_terms": ["Encoder-Only", "Decoder-Only", "BERT", "GPT", "bidirectional attention", "causal", "generation"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_15",
+    "category": "comparison_questions",
+    "question": "What is the difference between L1 and L2 regularization?",
+    "ground_truth_answer": "L1 regularization (Lasso) adds the absolute values of weights as penalty, inducing parameter sparsity. L2 regularization (Ridge) adds squared weight penalties, shrinking coefficients smoothly without setting them strictly to zero.",
+    "ground_truth_pages": [2],
+    "key_terms": ["regularization", "L1", "L2", "Lasso", "Ridge", "sparsity", "penalty"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_16",
+    "category": "comparison_questions",
+    "question": "Compare Variational Autoencoders (VAEs) and Diffusion Models in generative modeling.",
+    "ground_truth_answer": "VAEs learn continuous latent representations mapped to standard Gaussian distributions using an encoder and decoder with reparameterization. Diffusion Models generate data through an iterative reverse denoising process trained via neural networks like U-Nets.",
+    "ground_truth_pages": [7],
+    "key_terms": ["Variational Autoencoders", "VAEs", "Diffusion Models", "latent space", "reverse process", "denoising", "U-Nets"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_17",
+    "category": "comparison_questions",
+    "question": "Differentiate between LoRA and full parameter fine-tuning.",
+    "ground_truth_answer": "Full parameter fine-tuning updates all weights of a pre-trained model requiring significant compute and memory. LoRA freezes pre-trained weights and injects trainable low-rank decomposition matrices, drastically reducing parameters.",
+    "ground_truth_pages": [7],
+    "key_terms": ["LoRA", "Low-Rank Adaptation", "fine-tuning", "freeze", "trainable", "parameters", "decomposition"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_18",
+    "category": "comparison_questions",
+    "question": "Compare Convolutional Neural Networks (CNNs) and Transformers for sequence processing.",
+    "ground_truth_answer": "CNNs apply spatial kernel operators with localized receptive fields. Transformers apply multi-head self-attention mechanisms capturing global dependencies across the entire sequence.",
+    "ground_truth_pages": [5, 6],
+    "key_terms": ["Convolutional Neural Networks", "CNNs", "Transformers", "kernels", "attention", "receptive fields"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_19",
+    "category": "application_questions",
+    "question": "How can LoRA (Low-Rank Adaptation) be applied to fine-tune Large Language Models efficiently?",
+    "ground_truth_answer": "LoRA freezes the foundational model weights and introduces trainable low-rank rank-decomposition matrices into attention layers, allowing efficient domain adaptation with minimal VRAM overhead.",
+    "ground_truth_pages": [7],
+    "key_terms": ["LoRA", "low-rank", "fine-tune", "freeze", "attention layers", "trainable"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_20",
+    "category": "application_questions",
+    "question": "How is Principal Component Analysis (PCA) applied in data preprocessing?",
+    "ground_truth_answer": "PCA is applied to high-dimensional datasets to project data onto orthogonal eigenvectors of maximum variance, reducing dimensionality, decorrelating variables, and eliminating redundant features.",
+    "ground_truth_pages": [3],
+    "key_terms": ["PCA", "preprocessing", "eigenvectors", "variance", "dimensionality reduction"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_21",
+    "category": "application_questions",
+    "question": "How is Retrieval-Augmented Generation applied in enterprise knowledge systems?",
+    "ground_truth_answer": "RAG indexes internal organizational documents into vector databases using embeddings. When a user asks a query, semantic search fetches matching excerpts and passes them to the LLM to ground the generated response.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Retrieval-Augmented Generation", "RAG", "vector search", "embeddings", "semantic search", "grounding"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_22",
+    "category": "application_questions",
+    "question": "How does K-Fold Cross-Validation prevent data leakage during hyperparameter tuning?",
+    "ground_truth_answer": "K-Fold Cross-Validation rotates validation sets across K folds so every sample is evaluated on a model trained without seeing that fold, preventing validation leakage.",
+    "ground_truth_pages": [2],
+    "key_terms": ["Cross-Validation", "K-Fold", "leakage", "evaluation", "folds"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_23",
+    "category": "application_questions",
+    "question": "How is the reverse process of Diffusion Models applied to generate synthetic images?",
+    "ground_truth_answer": "The reverse process employs neural networks (such as U-Nets) to predict and remove noise step-by-step, starting from pure Gaussian noise until a clean synthetic sample is synthesized.",
+    "ground_truth_pages": [7],
+    "key_terms": ["reverse process", "Diffusion Models", "noise", "U-Nets", "synthetic", "denoising"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_24",
+    "category": "application_questions",
+    "question": "How does Tensor Parallelism split neural network layer matrices across multiple GPUs?",
+    "ground_truth_answer": "Tensor Parallelism splits individual layer matrices, such as multi-head attention linear projection weights, across multiple compute devices to distribute memory footprint and matrix operations.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Tensor Parallelism", "TP", "matrices", "layers", "devices", "multi-head attention"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_25",
+    "category": "scenario_questions",
+    "question": "What happens to deep neural network training if gradients vanish during backpropagation?",
+    "ground_truth_answer": "When gradients vanish, weight updates in earlier layers become negligibly small, causing convergence to stall and preventing deep networks from learning foundational representations.",
+    "ground_truth_pages": [4],
+    "key_terms": ["gradients", "vanishing gradients", "backpropagation", "convergence", "weight updates"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_26",
+    "category": "scenario_questions",
+    "question": "What occurs if a regression model is optimized with MSE in the presence of extreme outliers?",
+    "ground_truth_answer": "Because Mean Squared Error squares the residual differences, extreme outliers exert disproportionately large gradients on model parameters, pulling predictions toward the outliers.",
+    "ground_truth_pages": [2],
+    "key_terms": ["Mean Squared Error", "MSE", "outliers", "squared differences", "residual"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_27",
+    "category": "scenario_questions",
+    "question": "What failure modes occur if an LLM is asked factual syllabus questions without Retrieval-Augmented Generation?",
+    "ground_truth_answer": "Without RAG, the LLM relies solely on parametric knowledge which may lead to factual hallucinations, stale knowledge, and inability to verify source syllabus pages.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Retrieval-Augmented Generation", "RAG", "hallucinations", "factual", "vector search"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_28",
+    "category": "scenario_questions",
+    "question": "What happens if the latent space in a VAE is not regularized with standard Gaussian distribution?",
+    "ground_truth_answer": "Without Gaussian regularization via the KL divergence term, the latent space forms isolated pockets and gaps rather than a smooth, continuous manifold, preventing meaningful interpolation and generation.",
+    "ground_truth_pages": [7],
+    "key_terms": ["Variational Autoencoders", "VAEs", "latent space", "Gaussian", "regularization", "manifold"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_29",
+    "category": "scenario_questions",
+    "question": "What would happen if high-dimensional data is fed into a distance-based classifier without dimensionality reduction?",
+    "ground_truth_answer": "Due to the Curse of Dimensionality, distances between nearest and farthest neighbors converge to nearly equal values, making distance-based classifiers like KNN ineffective.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Curse of Dimensionality", "distance-based", "classifier", "feature space", "Euclidean distance"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_30",
+    "category": "scenario_questions",
+    "question": "What problems arise during transformer scaling if attention matrices exceed single GPU memory?",
+    "ground_truth_answer": "When transformer layers exceed single GPU memory, out-of-memory errors occur, necessitating distributed strategies such as Tensor Parallelism to split linear weight matrices across devices.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Tensor Parallelism", "GPU memory", "attention", "matrices", "distributed"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_31",
+    "category": "summarization_questions",
+    "question": "Summarize the core learning paradigms covered in Volume I of the compendium.",
+    "ground_truth_answer": "Volume I covers Supervised Learning (labeled pairs to learn mapping functions), Unsupervised Learning (unlabeled data to extract latent structures and clustering), Reinforcement Learning (agent-environment interaction optimizing reward signals), and foundational data theories like the Curse of Dimensionality and Geometric Embeddings.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Supervised Learning", "Unsupervised Learning", "Reinforcement Learning", "Curse of Dimensionality", "Embeddings"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_32",
+    "category": "summarization_questions",
+    "question": "Summarize the LLM fine-tuning and adaptation strategies mentioned in Volume VIII.",
+    "ground_truth_answer": "Volume VIII highlights parameter-efficient adaptation strategies including LoRA (Low-Rank Adaptation decomposing weight updates), Prompt Tuning, Prefix Tuning, alongside Alignment methods like RLHF and DPO.",
+    "ground_truth_pages": [7],
+    "key_terms": ["LoRA", "Low-Rank Adaptation", "Fine-Tuning", "Alignment", "RLHF", "DPO"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_33",
+    "category": "summarization_questions",
+    "question": "Summarize the key concepts of Convolutional Neural Networks (CNNs) in Volume V.",
+    "ground_truth_answer": "Volume V details CNN architectures, focusing on convolutional operators with learned spatial filter kernels, pooling mechanisms (Max and Average Pooling for translation invariance and downsampling), and feature hierarchy extraction.",
+    "ground_truth_pages": [5],
+    "key_terms": ["Convolutional Neural Networks", "CNNs", "kernels", "pooling", "spatial", "feature hierarchy"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_34",
+    "category": "summarization_questions",
+    "question": "Summarize the attention and transformer paradigms described in Volume VI.",
+    "ground_truth_answer": "Volume VI covers Scaled Dot-Product Attention, Multi-Head Attention mechanisms, and model taxonomies including Encoder-Only architectures (e.g., BERT for bidirectional representation) and Decoder-Only models (e.g., GPT for auto-regressive generation).",
+    "ground_truth_pages": [6],
+    "key_terms": ["Attention", "Scaled Dot-Product", "Multi-Head Attention", "Encoder-Only", "Decoder-Only", "BERT", "GPT"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_35",
+    "category": "summarization_questions",
+    "question": "Summarize the generative modeling architectures (VAEs and Diffusion) in Volume VII.",
+    "ground_truth_answer": "Volume VII details Variational Autoencoders (VAEs) that learn latent distributions via reparameterization, and Diffusion Models that learn generative synthesis through forward noise diffusion and neural network-driven reverse denoising.",
+    "ground_truth_pages": [7],
+    "key_terms": ["VAEs", "Variational Autoencoders", "Diffusion Models", "latent space", "reparameterization", "reverse process"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_36",
+    "category": "summarization_questions",
+    "question": "Summarize the model parallelization and optimization techniques in Volume VIII.",
+    "ground_truth_answer": "Volume VIII explains ultra-scale model architectures and deployment including Mixture of Experts (MoE with sparse routing), Tensor Parallelism (TP splitting layer matrices across compute devices), and Explainable AI (XAI with SHAP & LIME).",
+    "ground_truth_pages": [8],
+    "key_terms": ["Mixture of Experts", "MoE", "Tensor Parallelism", "TP", "Explainable AI", "XAI"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_37",
+    "category": "explanation_questions",
+    "question": "Explain the concept of geometric proximity in embeddings in simple words.",
+    "ground_truth_answer": "Embeddings map tokens, words, or entities into mathematical vectors in a high-dimensional space where geometric closeness (distance or cosine angle) directly reflects conceptual or semantic similarity.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Embeddings", "geometric proximity", "semantic similarity", "vectors", "tokens"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_38",
+    "category": "explanation_questions",
+    "question": "Explain how Scaled Dot-Product Attention works step-by-step based on the compendium.",
+    "ground_truth_answer": "First, Query and Key vectors are multiplied together. The product is scaled down by dividing by the square root of the key dimension. Next, a softmax function normalizes scores into attention weights. Finally, these weights are multiplied by Value vectors.",
+    "ground_truth_pages": [6],
+    "key_terms": ["Query", "Key", "Value", "Scaled Dot-Product", "softmax", "weights"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_39",
+    "category": "explanation_questions",
+    "question": "Explain the forward and reverse process of Diffusion Models in plain language.",
+    "ground_truth_answer": "The forward process systematically adds Gaussian noise to input data over a schedule until it becomes pure random noise. The reverse process trains neural networks (like U-Nets) to predict and subtract noise step-by-step to reconstruct or synthesize realistic data.",
+    "ground_truth_pages": [7],
+    "key_terms": ["forward process", "reverse process", "Diffusion Models", "noise", "U-Nets", "Gaussian"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_40",
+    "category": "explanation_questions",
+    "question": "Explain the role of kernels and pooling in Convolutional Neural Networks.",
+    "ground_truth_answer": "Kernels are learnable spatial filter matrices that slide across input data to extract local patterns like edges and textures. Pooling operators downsample feature maps to reduce spatial dimensions and provide translation invariance.",
+    "ground_truth_pages": [5],
+    "key_terms": ["kernels", "pooling", "Convolutional Neural Networks", "spatial", "downsample"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_41",
+    "category": "explanation_questions",
+    "question": "Explain how Low-Rank Adaptation (LoRA) decomposes weight update matrices.",
+    "ground_truth_answer": "LoRA freezes original pre-trained weight matrices and decomposes the weight update delta W into two low-rank matrices A and B of rank r, drastically shrinking the number of trainable parameters.",
+    "ground_truth_pages": [7],
+    "key_terms": ["LoRA", "low-rank", "decomposition", "trainable", "parameters", "freeze"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_42",
+    "category": "explanation_questions",
+    "question": "Explain what Explainable AI (XAI) techniques like SHAP and LIME do based on the text.",
+    "ground_truth_answer": "SHAP and LIME are post-hoc interpretability techniques designed to explain complex black-box model decisions by calculating feature attribution and local surrogate explanations.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Explainable AI", "XAI", "SHAP", "LIME", "interpretability", "feature attribution"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_43",
+    "category": "multipart_questions",
+    "question": "Explain what Transformer models are, differentiate Encoder-Only from Decoder-Only paradigms, and state what BERT is optimized for.",
+    "ground_truth_answer": "Transformers are neural architectures built on self-attention mechanisms that process sequence tokens in parallel. Encoder-Only models utilize bidirectional attention for representation learning, while Decoder-Only models use causal auto-regressive masking for token generation. BERT is an Encoder-Only model optimized for feature extraction and representation learning.",
+    "ground_truth_pages": [6],
+    "key_terms": ["Transformers", "Encoder-Only", "Decoder-Only", "BERT", "bidirectional", "causal", "feature extraction"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_44",
+    "category": "multipart_questions",
+    "question": "What is Retrieval-Augmented Generation (RAG), how does query embedding retrieval work, and what are its main system components?",
+    "ground_truth_answer": "RAG combines vector search engines with generative LLMs. Query embeddings fetch relevant context passages from a vector database using geometric similarity. The main components are the embedding model, vector index, retriever, and generator.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Retrieval-Augmented Generation", "RAG", "vector search", "embeddings", "generator"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_45",
+    "category": "multipart_questions",
+    "question": "What is Supervised Learning, how does it differ from Unsupervised Learning, and what is the Curse of Dimensionality?",
+    "ground_truth_answer": "Supervised Learning trains on labeled input-target pairs. Unsupervised Learning operates on unlabeled data to discover latent structures. The Curse of Dimensionality is the exponential growth in space volume causing sparsity and metric degradation.",
+    "ground_truth_pages": [1],
+    "key_terms": ["Supervised Learning", "Unsupervised Learning", "Curse of Dimensionality", "labeled", "unlabeled"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_46",
+    "category": "multipart_questions",
+    "question": "What are Variational Autoencoders (VAEs), how does the Reparameterization Trick function, and how does it compare to Diffusion reverse processes?",
+    "ground_truth_answer": "VAEs learn probabilistic latent representations mapped to Gaussian distributions. The Reparameterization Trick expresses the latent variable as a deterministic function with noise to enable backpropagation. Unlike VAEs, Diffusion reverse processes iteratively remove predicted noise step-by-step using neural networks like U-Nets.",
+    "ground_truth_pages": [7],
+    "key_terms": ["Variational Autoencoders", "VAEs", "Reparameterization Trick", "Diffusion Models", "reverse process"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_47",
+    "category": "multipart_questions",
+    "question": "Explain Tensor Parallelism (TP), describe how layer matrices are split, and outline how Mixture of Experts (MoE) differs from dense layers.",
+    "ground_truth_answer": "Tensor Parallelism splits individual layer matrices across multiple compute devices to distribute memory load. MoE differs from dense layers by replacing uniform feed-forward networks with sparse gated routing activating only subset experts per token.",
+    "ground_truth_pages": [8],
+    "key_terms": ["Tensor Parallelism", "TP", "matrices", "Mixture of Experts", "MoE", "sparse gated routing"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_48",
+    "category": "multipart_questions",
+    "question": "What is LoRA, how does it reduce trainable parameters, and does the compendium discuss quantum circuit optimization?",
+    "ground_truth_answer": "LoRA freezes base model weights and injects low-rank trainable decomposition matrices to drastically reduce parameter count. Note: The uploaded material does not mention quantum circuit optimization.",
+    "ground_truth_pages": [7],
+    "key_terms": ["LoRA", "low-rank", "trainable parameters", "quantum circuit"],
+    "is_out_of_syllabus": false,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_49",
+    "category": "out_of_syllabus_questions",
+    "question": "Who won the FIFA Men's World Cup in Qatar in 2022?",
+    "ground_truth_answer": "This topic is outside your uploaded syllabus. I can only answer questions based on your provided study material.",
+    "ground_truth_pages": [],
+    "key_terms": ["outside", "syllabus"],
+    "is_out_of_syllabus": true,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_50",
+    "category": "out_of_syllabus_questions",
+    "question": "Explain the economic causes of the French Revolution in 1789.",
+    "ground_truth_answer": "This topic is outside your uploaded syllabus. I can only answer questions based on your provided study material.",
+    "ground_truth_pages": [],
+    "key_terms": ["outside", "syllabus"],
+    "is_out_of_syllabus": true,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_51",
+    "category": "out_of_syllabus_questions",
+    "question": "What is the recipe for preparing authentic Italian carbonara pasta?",
+    "ground_truth_answer": "This topic is outside your uploaded syllabus. I can only answer questions based on your provided study material.",
+    "ground_truth_pages": [],
+    "key_terms": ["outside", "syllabus"],
+    "is_out_of_syllabus": true,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_52",
+    "category": "out_of_syllabus_questions",
+    "question": "What are the quantum circuit gate sequences for Shor's polynomial factoring algorithm?",
+    "ground_truth_answer": "I couldn't find sufficient information about this topic in your uploaded document.",
+    "ground_truth_pages": [],
+    "key_terms": ["sufficient information", "uploaded document"],
+    "is_out_of_syllabus": true,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_53",
+    "category": "out_of_syllabus_questions",
+    "question": "Explain the detailed biochemical pathway of cellular respiration and ATP synthase mechanics.",
+    "ground_truth_answer": "This topic is outside your uploaded syllabus. I can only answer questions based on your provided study material.",
+    "ground_truth_pages": [],
+    "key_terms": ["outside", "syllabus"],
+    "is_out_of_syllabus": true,
+    "is_no_document": false
+  },
+  {
+    "id": "eval_54",
+    "category": "out_of_syllabus_questions",
+    "question": "Can you explain the core topics of the syllabus without any uploaded document?",
+    "ground_truth_answer": "I cannot answer because no syllabus PDF has been uploaded. Please upload your study material first.",
+    "ground_truth_pages": [],
+    "key_terms": ["no syllabus PDF has been uploaded"],
+    "is_out_of_syllabus": false,
+    "is_no_document": true
+  }
+]

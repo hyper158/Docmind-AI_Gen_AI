@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocMind AI - Model Evaluation Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0b0f19; }
+        code, pre, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen p-6 sm:p-10">
+    <div class="max-w-6xl mx-auto space-y-8">
+        
+        <!-- Header -->
+        <header class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-800 gap-4">
+            <div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 p-0.5">
+                        <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-bold text-indigo-400">DM</div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-extrabold text-white">DocMind AI – RAG Evaluation Report</h1>
+                        <p class="text-xs text-slate-400">Independent Quality Assessment & Performance Benchmarks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right text-xs text-slate-400 space-y-1">
+                <div>Model: <span class="font-mono text-indigo-300 font-semibold">nvidia/nemotron-3.5-lightning:free</span></div>
+                <div>Evaluated: <span class="font-mono text-slate-300">2026-11-19 15:04:57 UTC</span></div>
+                <div>Test Samples: <span class="font-mono text-slate-200 font-bold">9 questions</span></div>
+            </div>
+        </header>
+
+        <!-- KPI Scorecards -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Faithfulness</div>
+                <div class="text-3xl font-extrabold text-emerald-400 mt-1">81.9%</div>
+                <div class="text-[11px] text-slate-500 mt-1">Zero Hallucination Grounding</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Context Precision</div>
+                <div class="text-3xl font-extrabold text-indigo-400 mt-1">73.3%</div>
+                <div class="text-[11px] text-slate-500 mt-1">FAISS Semantic Retrieval</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Context Recall</div>
+                <div class="text-3xl font-extrabold text-sky-400 mt-1">90.2%</div>
+                <div class="text-[11px] text-slate-500 mt-1">Syllabus Information Coverage</div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-lg">
+                <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Citation Accuracy</div>
+                <div class="text-3xl font-extrabold text-amber-400 mt-1">100.0%</div>
+                <div class="text-[11px] text-slate-500 mt-1">Verifiable Page References</div>
+            </div>
+        </section>
+
+        <!-- Visual Analytics Charts -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>Visual Analytics & Benchmark Charts</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-md">
+                    <img src="charts/overall_metrics.png" alt="Overall Metrics" class="rounded-xl w-full">
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-md">
+                    <img src="charts/category_performance.png" alt="Category Breakdown" class="rounded-xl w-full">
+                </div>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/70 border border-slate-800 shadow-md max-w-xl mx-auto">
+                <img src="charts/latency_breakdown.png" alt="Latency Breakdown" class="rounded-xl w-full">
+            </div>
+        </section>
+
+        <!-- Category Performance Table -->
+        <section class="space-y-4">
+            <h2 class="text-lg font-bold text-white">Performance by Question Category</h2>
+            <div class="overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-950/80 text-slate-400 uppercase tracking-wider border-b border-slate-800">
+                        <tr>
+                            <th class="py-3 px-4">Category</th>
+                            <th class="py-3 px-4 text-center">Tests</th>
+                            <th class="py-3 px-4 text-center">Faithfulness</th>
+                            <th class="py-3 px-4 text-center">Context Prec</th>
+                            <th class="py-3 px-4 text-center">Context Rec</th>
+                            <th class="py-3 px-4 text-center">Relevance</th>
+                            <th class="py-3 px-4 text-center">Citation Acc</th>
+                            <th class="py-3 px-4 text-center">Mean Latency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+            <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors">
+                <td class="py-3 px-4 font-medium text-slate-200">Conceptual Questions</td>
+                <td class="py-3 px-4 text-center text-slate-400">3</td>
+                <td class="py-3 px-4 text-center font-semibold text-emerald-400">83.2%</td>
+                <td class="py-3 px-4 text-center font-semibold text-indigo-400">73.3%</td>
+                <td class="py-3 px-4 text-center font-semibold text-sky-400">83.9%</td>
+                <td class="py-3 px-4 text-center font-semibold text-purple-400">65.0%</td>
+                <td class="py-3 px-4 text-center font-semibold text-amber-400">100.0%</td>
+                <td class="py-3 px-4 text-center text-slate-300">10.33s</td>
+            </tr>
+            
+            <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors">
+                <td class="py-3 px-4 font-medium text-slate-200">Direct Questions</td>
+                <td class="py-3 px-4 text-center text-slate-400">6</td>
+                <td class="py-3 px-4 text-center font-semibold text-emerald-400">81.2%</td>
+                <td class="py-3 px-4 text-center font-semibold text-indigo-400">73.3%</td>
+                <td class="py-3 px-4 text-center font-semibold text-sky-400">93.3%</td>
+                <td class="py-3 px-4 text-center font-semibold text-purple-400">78.3%</td>
+                <td class="py-3 px-4 text-center font-semibold text-amber-400">100.0%</td>
+                <td class="py-3 px-4 text-center text-slate-300">12.02s</td>
+            </tr>
+            
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Test Case Explorer -->
+        <section class="space-y-4">
+            <div class="flex items-center justify-between">
+                <h2 class="text-lg font-bold text-white">Detailed Evaluation Cases</h2>
+                <span class="text-xs text-slate-400">Click any card to inspect generated answer and citations</span>
+            </div>
+            <div>
+                
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_01</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Direct Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">What is Supervised Learning according to the compendium?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 89%</span>
+                        <span class="text-slate-400">8.446s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">### Supervised Learning
+According to the compendium, **Supervised Learning** is defined as:
+
+> A training paradigm where models are optimized using labeled datasets containing pairs of inputs $x_i$ and targets $y_i$. The objective is to learn a mapping function $f: X \rightarrow Y$ that minimizes a predefined empirical risk loss function across unseen distributions.
+
+**Key takeaways from the text:**
+- Employs **labeled data** with explicit input–target pairs ($x_i, y_i$)  
+- Aims to learn a **mapping function** $f: X \rightarrow Y$  
+- Optimization targets a **predefined empirical risk loss function**  
+- Generalization goal: performance across **unseen distributions**</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">Supervised Learning is a training paradigm where models are optimized using labeled datasets containing pairs of inputs xi and targets yi to learn a mapping function.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">100.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">100.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">80.7%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_02</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Direct Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">What is the Curse of Dimensionality?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 75%</span>
+                        <span class="text-slate-400">6.891s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">### Curse of Dimensionality
+**Source:** *Machine Learning & Deep Learning: Comprehensive Terminology Compendium* (Page 1)
+
+The **Curse of Dimensionality** is defined as:
+
+> *"The exponential proliferation of feature space volume as dimensions grow, leading to sample sparsity, loss of distance metric contrast (e.g., Euclidean distance convergence), and severe computational degradation."*
+
+It is categorized under **DATA THEORY** in the compendium. The core issue is that as the number of dimensions increases, the volume of the feature space expands exponentially, causing data points to become increasingly sparse. This sparsity undermines the effectiveness of distance-based methods (such as Euclidean distance), degrades the performance of many ML algorithms, and significantly increases computational demands.</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">The Curse of Dimensionality refers to the exponential proliferation of feature space volume as dimensions grow, leading to data sparsity and Euclidean distance degradation.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">80.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">90.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">77.4%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_03</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Direct Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">Define Principal Component Analysis (PCA).</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 86%</span>
+                        <span class="text-slate-400">13.07s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">**Principal Component Analysis (PCA)**
+
+Based on the provided excerpts:
+
+- **Definition & Mechanism**: PCA is a **dimensionality reduction** technique that performs a **linear orthogonal transformation**, projecting data onto a **lower-dimensional subspace** aligned with the **directions of maximum covariance** (the **eigenvectors of the data covariance matrix**), while **preserving maximum variance** ([Excerpt 1, Page 3]).
+
+- **Paradigm Context**: PCA is classified under **Unsupervised Learning** paradigms, which operate on unlabeled data to extract latent structures, underlying probability density functions, or intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error signal guidance ([Excerpt 2, Page 1]).
+
+**Summary**: PCA is a linear, orthogonal projection method that reduces data dimensionality by identifying and retaining the directions (eigenvectors) along which the data varies the most (maximum covariance), thereby preserving the most variance in a lower-dimensional space. It is a core unsupervised learning tool for extracting latent structure from unlabeled data.</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">Principal Component Analysis (PCA) is a linear orthogonal transformation that projects data onto a lower-dimensional subspace aligned with directions of maximum covariance (eigenvectors).</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">60.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">100.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">65.6%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_04</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Direct Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">What is Scaled Dot-Product Attention?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 62%</span>
+                        <span class="text-slate-400">21.171s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">### Scaled Dot-Product Attention  
+*(Source: Compendium, p. 6)*  
+
+An attention mechanism that proceeds in three steps:  
+- **Similarity scoring**: Computes dot‑product scores between the **Query (Q)** and **Key (K)** projection matrices.  
+- **Scaling**: Divides the scores by the square root of the key dimension (**√dk**) to maintain gradient stability as dimension increases.  
+- **Weighted aggregation**: Applies the **Softmax** function to obtain normalized attention weights, then uses these weights to linearly combine the **Value (V)** matrices.  
+
+**Formal definition (as given in the compendium):**  
+`Attention(Q, K, V) = softmax( (Q KT) / √dk ) V`</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">Scaled Dot-Product Attention computes query-key matrix multiplication divided by the square root of key dimensions and normalized with softmax to weight value vectors.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">80.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">100.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">79.1%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_05</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Direct Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">What is Mixture of Experts (MoE)?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 75%</span>
+                        <span class="text-slate-400">7.772s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">### Mixture of Experts (MoE)
+**Definition (from compendium, Page 8):** Mixture of Experts (MoE) replaces dense feed-forward layers with **sparse gated routing mechanisms** across **conditional sub-networks**.  
+**Primary Application:** It is employed in **ultra-scale foundation models** such as **Mixtral** and **GPT-4** to enhance model capacity and computational efficiency.
+
+*Source: Machine Learning & Deep Learning — Comprehensive Technical Terminology Compendium, p. 8*</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">Mixture of Experts (MoE) replaces dense feed-forward layers with sparse gated routing mechanisms across conditional sub-networks.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">40.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">90.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">80.1%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_06</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Direct Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">What is Mean Squared Error (MSE)?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 100%</span>
+                        <span class="text-slate-400">14.781s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">### Mean Squared Error (MSE)
+**Definition (from compendium, Page 2):**  
+`MSE: N‑1 ∑ (yᵢ – ŷᵢ)²`  
+
+**Primary Operational Context:**  
+Regression target optimization that is **sensitive to extreme outlier deviations**.  
+
+- **Formula:** \( N^{-1} \sum_{i=1}^{N} (y</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">Mean Squared Error (MSE) is a regression target optimization metric computed as the mean of squared differences between targets and predictions, sensitive to extreme outlier deviations.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">80.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">80.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">87.2%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_07</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Conceptual Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">Why is the Curse of Dimensionality problematic for machine learning algorithms?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 56%</span>
+                        <span class="text-slate-400">9.39s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">### Why the Curse of Dimensionality is Problematic for Machine Learning Algorithms
+
+Per the **Machine Learning & Deep Learning Technical Terminology Compendium** (p. 1), the Curse of Dimensionality is problematic because it induces the following issues as the number of features/dimensions grows:
+
+- **Exponential proliferation of feature space volume** – The volume of the feature space increases exponentially with each added dimension, causing data to become increasingly sparse.
+- **Sample sparsity** – With high dimensionality, data points are far apart relative to the space, resulting in very few samples per region and hindering effective learning.
+- **Loss of distance metric contrast** – Distances between instances (e.g., Euclidean distance) tend to converge toward uniformity, reducing an algorithm's ability to distinguish between "near" and "far" points.
+- **Severe computational degradation** – The rapid growth in dimensionality leads to significant increases in computational cost and memory usage, degrading both training and inference feasibility.
+
+These combined effects undermine the reliability and efficiency of many machine learning algorithms, particularly those dependent on distance calculations, density estimation, or dense data distributions.</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">As feature dimensions grow exponentially, the volume of feature space increases rapidly causing data to become sparse. Distances between all data points become uniformly large, degrading distance-based metrics.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">80.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">80.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">79.2%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_08</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Conceptual Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">Why do Transformers use Scaled Dot-Product Attention instead of recurrent loops?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 94%</span>
+                        <span class="text-slate-400">16.675s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">Based on your uploaded document, here are the key relevant excerpts:
+
+• Machine Learning & Deep Learning: Technical
+Terminology Compendium
+Volume VI: Modern Transformer Architectures & Attention Mechanics
+11. ATTENTION MECHANISMS & TRANSFORMERS
+Scaled ...
+• Multi-Head Attention (MHA) ARCHITECTURE
+Parallel projection of Queries, Keys, and Values into h distinct linear subspaces. Allows models to jointly attend to
+information from diffe...
+• Transformer Paradigms MODEL TAXONOMY
+Encoder-Only (e.g., BERT): Bidirectional attention optimized for feature extraction and classiﬁcation.
+Decoder-Only (e.g., GPT): Causal autoreg...
+• Machine Learning & Deep Learning: Technical
+Terminology Compendium
+Volume V: Convolutional & Recurrent Neural Architectures
+9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)
+Convolutional Op...</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">Scaled Dot-Product Attention allows models to attend to all positions simultaneously across sequence tokens via parallel matrix multiplications, eliminating sequential bottlenecking inherent in recurrent architectures.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">100.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">80.0%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">46.6%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            <details class="group bg-slate-900/60 border border-slate-800/80 rounded-xl overflow-hidden mb-3">
+                <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <div class="flex items-center gap-3 min-w-0 pr-4">
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-indigo-500/20 text-indigo-300 font-mono">eval_09</span>
+                        <span class="px-2 py-0.5 text-[11px] rounded bg-slate-800 text-slate-300">Conceptual Questions</span>
+                        <span class="text-sm font-medium text-slate-200 truncate">What is the purpose of the Reparameterization Trick in Variational Autoencoders?</span>
+                    </div>
+                    <div class="flex items-center gap-4 flex-shrink-0 text-xs">
+                        <span class="font-mono text-emerald-400">grounded</span>
+                        <span class="font-semibold text-emerald-400">Faith: 100%</span>
+                        <span class="text-slate-400">4.938s</span>
+                    </div>
+                </summary>
+                <div class="p-4 border-t border-slate-800 bg-slate-950/80 space-y-3 text-xs leading-relaxed font-sans">
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Generated Answer:</div>
+                        <div class="text-slate-200 bg-slate-900/90 p-3 rounded-lg whitespace-pre-wrap">According to the provided document, the **Reparameterization Trick** in Variational Autoencoders (VAEs) serves to **allow backpropagation through stochastic sampling**. 
+
+VAEs are described as probabilistic generative models that learn latent spaces mapped to standard distributions (e.g., Gaussian) via encoder networks. The trick enables gradient-based optimization by reparameterizing the stochastic sampling process, making it compatible with backpropagation.</div>
+                    </div>
+                    <div>
+                        <div class="text-[11px] uppercase tracking-wider font-bold text-slate-400 mb-1">Ground Truth:</div>
+                        <div class="text-slate-300 bg-slate-900/50 p-2.5 rounded-lg">The Reparameterization Trick allows gradients to backpropagate through stochastic latent sampling by expressing the latent variable z as a deterministic function of mean, variance, and independent noise epsilon.</div>
+                    </div>
+                    <div class="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+                        <span>Context Precision: <strong class="text-indigo-300">40.0%</strong></span>
+                        <span>Context Recall: <strong class="text-sky-300">91.7%</strong></span>
+                        <span>Relevance: <strong class="text-purple-300">69.2%</strong></span>
+                        <span>Citation Accuracy: <strong class="text-amber-300">100.0%</strong></span>
+                        <span>Citations: <strong class="text-slate-200">5 verified</strong></span>
+                    </div>
+                </div>
+            </details>
+            
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+            DocMind AI Evaluation Engine &bull; Automated RAG Assessment System &bull; FastEmbed + FAISS + LangChain
+        </footer>
+    </div>
+</body>
+</html>

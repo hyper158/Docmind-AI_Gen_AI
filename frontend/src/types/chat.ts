@@ -159,3 +159,60 @@ export interface EvaluationHistoryResponse {
   total_count: number;
 }
 
+// === Hierarchical Document Summarization Types ===
+
+export interface PageSummary {
+  page_number: number;
+  summary: string;
+  status: 'completed' | 'empty' | 'insufficient_text' | 'failed' | 'partial';
+  is_chunked?: boolean;
+  chunk_count?: number;
+  input_characters?: number;
+  estimated_tokens?: number;
+  processing_time_sec?: number;
+  error_message?: string | null;
+}
+
+export interface SummaryMetadata {
+  document_id: string;
+  filename: string;
+  total_pages: number;
+  successful_pages: number;
+  empty_pages?: number;
+  insufficient_text_pages?: number;
+  failed_pages?: number;
+  total_characters?: number;
+  total_words?: number;
+  is_scanned_or_image?: boolean;
+  total_duration_sec?: number;
+  aggregation_levels?: number;
+  section_count?: number;
+  model_name?: string;
+  completed_at?: string;
+}
+
+export interface SummarizationProgress {
+  document_id: string;
+  filename?: string;
+  status: 'idle' | 'processing' | 'completed' | 'failed' | 'partial';
+  stage: 'idle' | 'extraction' | 'page_summarization' | 'hierarchical_aggregation' | 'completed' | 'failed';
+  total_pages: number;
+  processed_pages: number;
+  failed_pages: number;
+  percent_complete: number;
+  started_at?: string;
+  error_message?: string | null;
+}
+
+export interface DocumentSummaryResponse {
+  document_id: string;
+  filename?: string;
+  status: string;
+  final_summary?: string | null;
+  page_summaries: PageSummary[];
+  metadata?: SummaryMetadata | null;
+  progress?: SummarizationProgress | null;
+  error_message?: string | null;
+}
+
+

@@ -165,4 +165,5 @@ Generated artifacts in `backend/evaluation_results/`:
 4. **Ask a Question**: Type direct, conceptual, comparison, application, scenario, summarization, or multi-part questions.
 5. **Grounded Answer & Citations**: The backend performs Top-K semantic retrieval from FAISS, filters by relevance score, builds a bounded context, queries NVIDIA Nemotron 3.5 Lightning via OpenRouter, and presents the answer directly into the chat UI formatted in Markdown along with verified citations indicating the exact PDF filename and page number.
 6. **Document Viewer**: Click any citation badge to open the side drawer and inspect the referenced excerpt.
-7. **Session Persistence**: Sessions, chat history, and uploaded documents persist across application restarts in SQLite and local disk storage.
+7. **Hierarchical Document Summarizer**: Navigate to the Documents page and click "Summarize" on any document. The backend runs a page-aware Map-Reduce pipeline that produces an 8-section comprehensive synthesis, individual page-by-page summaries, and extraction diagnostics with live progress tracking.
+8. **Session Persistence**: Sessions, chat history, and uploaded documents persist across application restarts in SQLite and local disk storage.

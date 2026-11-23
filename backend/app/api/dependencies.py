@@ -33,3 +33,15 @@ def get_llm_service() -> LLMService:
 
 def get_chat_service() -> ChatService:
     return ChatService()
+
+
+_summarization_service_instance = None
+
+
+def get_summarization_service():
+    global _summarization_service_instance
+    if _summarization_service_instance is None:
+        from app.services.summarization.summarization_service import SummarizationService
+        _summarization_service_instance = SummarizationService()
+    return _summarization_service_instance
+

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, FileText, ChevronLeft, ChevronRight, Search, 
   Copy, Sparkles, Table as TableIcon, Hash, Check
 } from 'lucide-react';
-import type { UploadedFile, Citation } from '../types/chat';
+import type { UploadedFile, Citation, DocumentSummaryResponse } from '../types/chat';
+import { api } from '../services/api';
 
 interface DocumentViewerDrawerProps {
   isOpen: boolean;
@@ -22,6 +23,23 @@ export const DocumentViewerDrawer: React.FC<DocumentViewerDrawerProps> = ({
   const [searchDocQuery, setSearchDocQuery] = useState('');
   const [activeViewMode, setActiveViewMode] = useState<'text' | 'tables' | 'chunks'>('text');
   const [copied, setCopied] = useState(false);
+  const [summaryDetail, setSummaryDetail] = useState<DocumentSummaryResponse | null>(null);
+
+  useEffect(() => {
+    if (!file) {
+      setSummaryDetail(null);
+      return;
+    }
+    let isCurrent = true;
+    api.getDocumentSummary(file.id)
+      .then((data) => {
+        if (isCurrent) setSummaryDetail(data);
+      })
+      .catch(() => {});
+    return () => {
+      isCurrent = false;
+    };
+  }, [file]);
 
   if (!isOpen || !file) return null;
 
@@ -146,6 +164,27 @@ export const DocumentViewerDrawer: React.FC<DocumentViewerDrawerProps> = ({
             <p className="text-[11px] italic">"{activeCitation.snippet}"</p>
           </div>
         )}
+
+        {/* Page-Specific AI Summary if Available */}
+        {(() => {
+          const pageSum = summaryDetail?.page_summaries?.find(p => p.page_number === currentPage);
+          if (!pageSum || !pageSum.summary) return null;
+          return (
+            <div className="p-3.5 rounded-2xl bg-indigo-950/40 border border-indigo-500/30 space-y-1.5 animate-in fade-in">
+              <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-indigo-400">
+                <span className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" /> Page {currentPage} AI Summary
+                </span>
+                <span className="font-mono text-[10px] text-indigo-300">
+                  {pageSum.estimated_tokens ? `~${pageSum.estimated_tokens} tokens` : ''}
+                </span>
+              </div>
+              <p className="text-slate-200 leading-relaxed text-xs whitespace-pre-wrap">
+                {pageSum.summary}
+              </p>
+            </div>
+          );
+        })()}
 
         {/* Executive Summary Card */}
         {file.summary && (

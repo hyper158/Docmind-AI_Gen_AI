@@ -7,6 +7,8 @@ import type {
   EvaluationSummaryResponse,
   EvaluationHistoryResponse,
   TestCaseResult,
+  DocumentSummaryResponse,
+  SummarizationProgress,
 } from '../types/chat';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
@@ -290,6 +292,41 @@ export const api = {
   async getEvaluationRun(runId: string): Promise<EvaluationRunDetail> {
     const res = await fetch(`${API_BASE_URL}/evaluation/run/${runId}`);
     if (!res.ok) throw new Error('Failed to fetch evaluation run');
+    return res.json();
+  },
+
+  // Hierarchical Document Summarization
+  async summarizeDocument(
+    documentId: string,
+    options?: { mode?: 'async' | 'sync'; force_refresh?: boolean; max_pages?: number }
+  ): Promise<{ document_id: string; status: string; message: string; progress?: SummarizationProgress }> {
+    const res = await fetch(`${API_BASE_URL}/documents/${documentId}/summarize`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(options || { mode: 'async' }),
+    });
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || 'Failed to trigger document summarization');
+    }
+    return res.json();
+  },
+
+  async getDocumentSummary(documentId: string): Promise<DocumentSummaryResponse> {
+    const res = await fetch(`${API_BASE_URL}/documents/${documentId}/summary`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || 'Failed to fetch document summary');
+    }
+    return res.json();
+  },
+
+  async getDocumentSummaryStatus(documentId: string): Promise<SummarizationProgress> {
+    const res = await fetch(`${API_BASE_URL}/documents/${documentId}/summary/status`);
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.detail || 'Failed to fetch summarization status');
+    }
     return res.json();
   },
 };

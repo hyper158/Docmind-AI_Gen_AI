@@ -86,6 +86,26 @@ def init_db() -> None:
             """
         )
 
+        # Document Summaries table (Hierarchical Page-Aware Summaries)
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS document_summaries (
+                document_id TEXT PRIMARY KEY,
+                status TEXT NOT NULL,
+                final_summary TEXT,
+                page_summaries_json TEXT,
+                metadata_json TEXT,
+                total_pages INTEGER DEFAULT 0,
+                processed_pages INTEGER DEFAULT 0,
+                failed_pages INTEGER DEFAULT 0,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL,
+                error_message TEXT,
+                FOREIGN KEY (document_id) REFERENCES documents(document_id) ON DELETE CASCADE
+            );
+            """
+        )
+
         # Useful indexes
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_docs_hash ON documents(file_hash);")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id);")

@@ -6,7 +6,7 @@ from app.core.config import settings
 from app.core.logging_config import configure_logging, get_logger
 from app.core.exceptions import DocMindException
 from app.database.initialization import init_db
-from app.api.routes import health, documents, chat, sessions, evaluation
+from app.api.routes import health, documents, chat, sessions, evaluation, summarization
 
 # Configure logging
 configure_logging()
@@ -64,6 +64,7 @@ app.include_router(documents.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
 app.include_router(sessions.router, prefix="/api")
 app.include_router(evaluation.router, prefix="/api")
+app.include_router(summarization.router, prefix="/api")
 
 
 @app.get("/")

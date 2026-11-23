@@ -1,0 +1,47 @@
+{
+  "document_id": "doc_test_summary_123",
+  "filename": "test_doc.pdf",
+  "status": "completed",
+  "final_summary": "# Summary for test_doc.pdf\n\nNo extractable text was found across 2 pages. The PDF may be password-protected, encrypted, or contain only scanned images.",
+  "page_summaries": [
+    {
+      "page_number": 1,
+      "summary": "*Page 1: Empty page with no extractable text.*",
+      "status": "empty",
+      "is_chunked": false,
+      "chunk_count": 1,
+      "input_characters": 0,
+      "estimated_tokens": 0,
+      "processing_time_sec": 0.001,
+      "error_message": null
+    },
+    {
+      "page_number": 2,
+      "summary": "*Page 2: Empty page with no extractable text.*",
+      "status": "empty",
+      "is_chunked": false,
+      "chunk_count": 1,
+      "input_characters": 0,
+      "estimated_tokens": 0,
+      "processing_time_sec": 0.001,
+      "error_message": null
+    }
+  ],
+  "metadata": {
+    "document_id": "doc_test_summary_123",
+    "filename": "test_doc.pdf",
+    "total_pages": 2,
+    "successful_pages": 0,
+    "empty_pages": 2,
+    "insufficient_text_pages": 0,
+    "failed_pages": 0,
+    "total_characters": 0,
+    "total_words": 0,
+    "is_scanned_or_image": true,
+    "total_duration_sec": 0.02,
+    "aggregation_levels": 0,
+    "section_count": 0,
+    "model_name": "Mock-Deterministic-LLM",
+    "completed_at": "2026-11-23T15:51:04.703107+00:00"
+  }
+}

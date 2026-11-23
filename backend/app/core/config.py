@@ -45,8 +45,18 @@ class Settings(BaseSettings):
     UPLOADS_DIR: Path = BASE_DIR / "storage" / "uploads"
     INDEXES_DIR: Path = BASE_DIR / "storage" / "indexes"
     METADATA_DIR: Path = BASE_DIR / "storage" / "metadata"
+    SUMMARIES_DIR: Path = BASE_DIR / "storage" / "summaries"
     SQLITE_DB_PATH: Path = BASE_DIR / "storage" / "metadata" / "docmind.db"
     MAX_FILE_SIZE_MB: int = 50
+
+    # Hierarchical Summarization Configuration
+    SUMMARIZATION_CONCURRENCY_LIMIT: int = 3
+    SUMMARIZATION_PAGE_CHUNK_SIZE: int = 3000
+    SUMMARIZATION_PAGE_CHUNK_OVERLAP: int = 300
+    SUMMARIZATION_MAX_OUTPUT_TOKENS: int = 4096
+    SUMMARIZATION_TIMEOUT_SECONDS: int = 60
+    SUMMARIZATION_MAX_RETRIES: int = 3
+    SUMMARIZATION_RETRY_BACKOFF: float = 2.0
 
     # Strict Exact Fallback Messages
     NO_DOCUMENTS_UPLOADED_MSG: str = (
@@ -72,3 +82,4 @@ settings = Settings()
 settings.UPLOADS_DIR.mkdir(parents=True, exist_ok=True)
 settings.INDEXES_DIR.mkdir(parents=True, exist_ok=True)
 settings.METADATA_DIR.mkdir(parents=True, exist_ok=True)
+settings.SUMMARIES_DIR.mkdir(parents=True, exist_ok=True)

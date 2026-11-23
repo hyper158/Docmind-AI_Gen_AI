@@ -351,3 +351,70 @@ class Repository:
                     )
                 )
             return messages
+
+    # ------------------ Document Summary Operations ------------------
+
+    @staticmethod
+    def upsert_document_summary(
+        document_id: str,
+        status: str,
+        final_summary: Optional[str] = None,
+        page_summaries_json: Optional[str] = None,
+        metadata_json: Optional[str] = None,
+        total_pages: int = 0,
+        processed_pages: int = 0,
+        failed_pages: int = 0,
+        created_at: Optional[str] = None,
+        updated_at: Optional[str] = None,
+        error_message: Optional[str] = None,
+    ) -> None:
+        """Inserts or updates hierarchical summary data for a document."""
+        now_iso = updated_at or created_at or ""
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO document_summaries (
+                    document_id, status, final_summary, page_summaries_json,
+                    metadata_json, total_pages, processed_pages, failed_pages,
+                    created_at, updated_at, error_message
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON CONFLICT(document_id) DO UPDATE SET
+                    status = excluded.status,
+                    final_summary = coalesce(excluded.final_summary, document_summaries.final_summary),
+                    page_summaries_json = coalesce(excluded.page_summaries_json, document_summaries.page_summaries_json),
+                    metadata_json = coalesce(excluded.metadata_json, document_summaries.metadata_json),
+                    total_pages = excluded.total_pages,
+                    processed_pages = excluded.processed_pages,
+                    failed_pages = excluded.failed_pages,
+                    updated_at = excluded.updated_at,
+                    error_message = excluded.error_message;
+                """,
+                (
+                    document_id,
+                    status,
+                    final_summary,
+                    page_summaries_json,
+                    metadata_json,
+                    total_pages,
+                    processed_pages,
+                    failed_pages,
+                    created_at or now_iso,
+                    now_iso,
+                    error_message,
+                ),
+            )
+
+    @staticmethod
+    def get_document_summary(document_id: str) -> Optional[dict]:
+        """Fetches the document summary record for a document."""
+        with get_db_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "SELECT * FROM document_summaries WHERE document_id = ?;",
+                (document_id,),
+            )
+            row = cursor.fetchone()
+            if not row:
+                return None
+            return dict(row)

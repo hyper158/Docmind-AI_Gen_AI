@@ -144,6 +144,40 @@ class ChatService:
         # 5. Relevance Filtering
         filtered_chunks = self.retrieval_service.filter_by_relevance(retrieved_raw)
 
+        # 5b. Document-wide summarization enhancement if comprehensive summary exists
+        is_summary_request = any(
+            phrase in question.lower()
+            for phrase in [
+                "summarize this document",
+                "summarize the document",
+                "summary of this document",
+                "summary of the document",
+                "summarize the syllabus",
+                "syllabus summary",
+                "comprehensive summary",
+                "full document summary",
+            ]
+        )
+        if is_summary_request and target_doc_ids:
+            for did in target_doc_ids:
+                sum_rec = Repository.get_document_summary(did)
+                if sum_rec and sum_rec.get("final_summary"):
+                    from langchain_core.documents import Document
+                    doc_obj = Repository.get_document_by_id(did)
+                    fn = doc_obj.filename if doc_obj else "Document"
+                    summary_doc = Document(
+                        page_content=f"Comprehensive Document Summary for {fn}:\n{sum_rec['final_summary'][:4000]}",
+                        metadata={
+                            "document_id": did,
+                            "filename": fn,
+                            "source": fn,
+                            "page": 1,
+                            "chunk_id": f"{did}_summary_master",
+                        },
+                    )
+                    from app.services.retrieval_service import RetrievedChunk
+                    filtered_chunks.insert(0, RetrievedChunk(document=summary_doc, relevance_score=1.0))
+
         # 6. LLM Generation
         answer, answer_status, reasoning_time = self.llm_service.generate_answer(
             question=question,

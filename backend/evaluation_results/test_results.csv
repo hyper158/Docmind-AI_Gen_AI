@@ -1,0 +1,82 @@
+id,category,question,answer_status,context_precision,context_recall,faithfulness,answer_relevance,answer_correctness,citation_accuracy,retrieval_latency_sec,generation_latency_sec,total_latency_sec,citation_count,ground_truth_answer,generated_answer
+eval_01,direct_questions,What is Supervised Learning according to the compendium?,grounded,1.0,1.0,0.8889,0.8071,0.7857,1.0,0.613,6.57,8.446,5,Supervised Learning is a training paradigm where models are optimized using labeled datasets containing pairs of inputs xi and targets yi to learn a mapping function.,"### Supervised Learning
+According to the compendium, **Supervised Learning** is defined as:
+
+> A training paradigm where models are optimized using labeled datasets containing pairs of inputs $x_i$ and targets $y_i$. The objective is to learn a mapping function $f: X \rightarrow Y$ that minimizes a predefined empirical risk loss function across unseen distributions.
+
+**Key takeaways from the text:**
+- Employs **labeled data** with explicit input–target pairs ($x_i, y_i$)  
+- Aims to learn a **mapping function** $f: X \rightarrow Y$  
+- Optimization targets a **predefined empirical risk loss function**  
+- Generalization goal: performance across **unseen distributions**"
+eval_02,direct_questions,What is the Curse of Dimensionality?,grounded,0.8,0.9,0.75,0.7737,0.7795,1.0,0.517,4.36,6.891,5,"The Curse of Dimensionality refers to the exponential proliferation of feature space volume as dimensions grow, leading to data sparsity and Euclidean distance degradation.","### Curse of Dimensionality
+**Source:** *Machine Learning & Deep Learning: Comprehensive Terminology Compendium* (Page 1)
+
+The **Curse of Dimensionality** is defined as:
+
+> *""The exponential proliferation of feature space volume as dimensions grow, leading to sample sparsity, loss of distance metric contrast (e.g., Euclidean distance convergence), and severe computational degradation.""*
+
+It is categorized under **DATA THEORY** in the compendium. The core issue is that as the number of dimensions increases, the volume of the feature space expands exponentially, causing data points to become increasingly sparse. This sparsity undermines the effectiveness of distance-based methods (such as Euclidean distance), degrades the performance of many ML algorithms, and significantly increases computational demands."
+eval_03,direct_questions,Define Principal Component Analysis (PCA).,grounded,0.6,1.0,0.8571,0.6559,0.7655,1.0,2.528,7.25,13.07,5,Principal Component Analysis (PCA) is a linear orthogonal transformation that projects data onto a lower-dimensional subspace aligned with directions of maximum covariance (eigenvectors).,"**Principal Component Analysis (PCA)**
+
+Based on the provided excerpts:
+
+- **Definition & Mechanism**: PCA is a **dimensionality reduction** technique that performs a **linear orthogonal transformation**, projecting data onto a **lower-dimensional subspace** aligned with the **directions of maximum covariance** (the **eigenvectors of the data covariance matrix**), while **preserving maximum variance** ([Excerpt 1, Page 3]).
+
+- **Paradigm Context**: PCA is classified under **Unsupervised Learning** paradigms, which operate on unlabeled data to extract latent structures, underlying probability density functions, or intrinsic dimensional representations (e.g., Clustering, PCA, Autoencoders) without explicit error signal guidance ([Excerpt 2, Page 1]).
+
+**Summary**: PCA is a linear, orthogonal projection method that reduces data dimensionality by identifying and retaining the directions (eigenvectors) along which the data varies the most (maximum covariance), thereby preserving the most variance in a lower-dimensional space. It is a core unsupervised learning tool for extracting latent structure from unlabeled data."
+eval_04,direct_questions,What is Scaled Dot-Product Attention?,grounded,0.8,1.0,0.625,0.7912,0.5041,1.0,0.1,14.13,21.171,5,Scaled Dot-Product Attention computes query-key matrix multiplication divided by the square root of key dimensions and normalized with softmax to weight value vectors.,"### Scaled Dot-Product Attention  
+*(Source: Compendium, p. 6)*  
+
+An attention mechanism that proceeds in three steps:  
+- **Similarity scoring**: Computes dot‑product scores between the **Query (Q)** and **Key (K)** projection matrices.  
+- **Scaling**: Divides the scores by the square root of the key dimension (**√dk**) to maintain gradient stability as dimension increases.  
+- **Weighted aggregation**: Applies the **Softmax** function to obtain normalized attention weights, then uses these weights to linearly combine the **Value (V)** matrices.  
+
+**Formal definition (as given in the compendium):**  
+`Attention(Q, K, V) = softmax( (Q KT) / √dk ) V`"
+eval_05,direct_questions,What is Mixture of Experts (MoE)?,grounded,0.4,0.9,0.75,0.8012,0.8615,1.0,4.342,7.69,7.772,5,Mixture of Experts (MoE) replaces dense feed-forward layers with sparse gated routing mechanisms across conditional sub-networks.,"### Mixture of Experts (MoE)
+**Definition (from compendium, Page 8):** Mixture of Experts (MoE) replaces dense feed-forward layers with **sparse gated routing mechanisms** across **conditional sub-networks**.  
+**Primary Application:** It is employed in **ultra-scale foundation models** such as **Mixtral** and **GPT-4** to enhance model capacity and computational efficiency.
+
+*Source: Machine Learning & Deep Learning — Comprehensive Technical Terminology Compendium, p. 8*"
+eval_06,direct_questions,What is Mean Squared Error (MSE)?,grounded,0.8,0.8,1.0,0.8717,0.6363,1.0,0.01,14.68,14.781,5,"Mean Squared Error (MSE) is a regression target optimization metric computed as the mean of squared differences between targets and predictions, sensitive to extreme outlier deviations.","### Mean Squared Error (MSE)
+**Definition (from compendium, Page 2):**  
+`MSE: N‑1 ∑ (yᵢ – ŷᵢ)²`  
+
+**Primary Operational Context:**  
+Regression target optimization that is **sensitive to extreme outlier deviations**.  
+
+- **Formula:** \( N^{-1} \sum_{i=1}^{N} (y"
+eval_07,conceptual_questions,Why is the Curse of Dimensionality problematic for machine learning algorithms?,grounded,0.8,0.8,0.5556,0.7916,0.5391,1.0,0.031,9.33,9.39,5,"As feature dimensions grow exponentially, the volume of feature space increases rapidly causing data to become sparse. Distances between all data points become uniformly large, degrading distance-based metrics.","### Why the Curse of Dimensionality is Problematic for Machine Learning Algorithms
+
+Per the **Machine Learning & Deep Learning Technical Terminology Compendium** (p. 1), the Curse of Dimensionality is problematic because it induces the following issues as the number of features/dimensions grows:
+
+- **Exponential proliferation of feature space volume** – The volume of the feature space increases exponentially with each added dimension, causing data to become increasingly sparse.
+- **Sample sparsity** – With high dimensionality, data points are far apart relative to the space, resulting in very few samples per region and hindering effective learning.
+- **Loss of distance metric contrast** – Distances between instances (e.g., Euclidean distance) tend to converge toward uniformity, reducing an algorithm's ability to distinguish between ""near"" and ""far"" points.
+- **Severe computational degradation** – The rapid growth in dimensionality leads to significant increases in computational cost and memory usage, degrading both training and inference feasibility.
+
+These combined effects undermine the reliability and efficiency of many machine learning algorithms, particularly those dependent on distance calculations, density estimation, or dense data distributions."
+eval_08,conceptual_questions,Why do Transformers use Scaled Dot-Product Attention instead of recurrent loops?,grounded,1.0,0.8,0.9412,0.4656,0.3124,1.0,0.015,16.61,16.675,5,"Scaled Dot-Product Attention allows models to attend to all positions simultaneously across sequence tokens via parallel matrix multiplications, eliminating sequential bottlenecking inherent in recurrent architectures.","Based on your uploaded document, here are the key relevant excerpts:
+
+• Machine Learning & Deep Learning: Technical
+Terminology Compendium
+Volume VI: Modern Transformer Architectures & Attention Mechanics
+11. ATTENTION MECHANISMS & TRANSFORMERS
+Scaled ...
+• Multi-Head Attention (MHA) ARCHITECTURE
+Parallel projection of Queries, Keys, and Values into h distinct linear subspaces. Allows models to jointly attend to
+information from diffe...
+• Transformer Paradigms MODEL TAXONOMY
+Encoder-Only (e.g., BERT): Bidirectional attention optimized for feature extraction and classiﬁcation.
+Decoder-Only (e.g., GPT): Causal autoreg...
+• Machine Learning & Deep Learning: Technical
+Terminology Compendium
+Volume V: Convolutional & Recurrent Neural Architectures
+9. CONVOLUTIONAL NEURAL NETWORKS (CNNS)
+Convolutional Op..."
+eval_09,conceptual_questions,What is the purpose of the Reparameterization Trick in Variational Autoencoders?,grounded,0.4,0.9167,1.0,0.6918,0.2647,1.0,0.131,4.83,4.938,5,"The Reparameterization Trick allows gradients to backpropagate through stochastic latent sampling by expressing the latent variable z as a deterministic function of mean, variance, and independent noise epsilon.","According to the provided document, the **Reparameterization Trick** in Variational Autoencoders (VAEs) serves to **allow backpropagation through stochastic sampling**. 
+
+VAEs are described as probabilistic generative models that learn latent spaces mapped to standard distributions (e.g., Gaussian) via encoder networks. The trick enables gradient-based optimization by reparameterizing the stochastic sampling process, making it compatible with backpropagation."

@@ -63,3 +63,26 @@ def test_evaluation_summary_and_history():
     assert "results" in results
     assert len(results["results"]) <= 5
 
+
+@pytest.mark.asyncio
+async def test_summarization_endpoints():
+    from app.api.routes import summarization
+    from app.services.summarization.summarization_service import SummarizationService
+
+    mock_service = SummarizationService(mock_mode=True)
+
+    # 1. Test get summary on non-existent document raises 404
+    with pytest.raises(Exception):
+        await summarization.get_document_summary_endpoint(
+            document_id="doc_non_existent",
+            summarization_service=mock_service,
+        )
+
+    # 2. Test status on non-existent document raises 404
+    with pytest.raises(Exception):
+        await summarization.get_summarization_status_endpoint(
+            document_id="doc_non_existent",
+            summarization_service=mock_service,
+        )
+
+

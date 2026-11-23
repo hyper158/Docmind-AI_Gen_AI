@@ -75,63 +75,81 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   };
 
   const renderSingleLine = (line: string, idx: number) => {
-    if (line.startsWith('# ')) {
+    const trimmed = line.trimStart();
+    const indentSpaces = line.length - trimmed.length;
+    const indentLevel = Math.min(4, Math.floor(indentSpaces / 2));
+
+    if (trimmed.startsWith('# ')) {
       return (
-        <h1 key={idx} className="text-xl font-bold text-white mt-4 mb-2">
-          {line.replace('# ', '')}
+        <h1 key={idx} className="text-xl sm:text-2xl font-black text-white mt-5 mb-2.5 tracking-tight border-b border-slate-800/80 pb-1.5">
+          {trimmed.replace('# ', '')}
         </h1>
       );
     }
-    if (line.startsWith('## ')) {
+    if (trimmed.startsWith('## ')) {
       return (
-        <h2 key={idx} className="text-lg font-extrabold text-indigo-300 mt-5 mb-2">
-          {line.replace('## ', '')}
+        <h2 key={idx} className="text-lg font-extrabold text-indigo-300 mt-5 mb-2 flex items-center gap-2">
+          {trimmed.replace('## ', '')}
         </h2>
       );
     }
-    if (line.startsWith('### ')) {
+    if (trimmed.startsWith('### ')) {
       return (
-        <h3 key={idx} className="text-base font-bold text-white mt-4 mb-2 flex items-center gap-2">
-          {line.replace('### ', '')}
+        <h3 key={idx} className="text-base font-bold text-white mt-4 mb-1.5 flex items-center gap-2">
+          {trimmed.replace('### ', '')}
         </h3>
       );
     }
-    if (line.startsWith('- ') || line.startsWith('* ')) {
-      const content = line.substring(2);
+    if (trimmed.startsWith('#### ')) {
       return (
-        <div key={idx} className="flex items-start gap-2 ml-2">
+        <h4 key={idx} className="text-sm font-bold text-indigo-200 mt-3 mb-1">
+          {trimmed.replace('#### ', '')}
+        </h4>
+      );
+    }
+    if (trimmed.startsWith('##### ')) {
+      return (
+        <h5 key={idx} className="text-xs font-bold text-slate-300 mt-2 mb-1">
+          {trimmed.replace('##### ', '')}
+        </h5>
+      );
+    }
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      const content = trimmed.substring(2);
+      return (
+        <div key={idx} className="flex items-start gap-2 my-1" style={{ marginLeft: `${Math.max(0.5, indentLevel * 1.25)}rem` }}>
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0" />
-          <span className="text-slate-200">{formatInlineFormatting(content)}</span>
+          <span className="text-slate-200 leading-relaxed">{formatInlineFormatting(content)}</span>
         </div>
       );
     }
-    if (/^\d+\.\s/.test(line)) {
-      const match = line.match(/^(\d+)\.\s(.*)/);
+    if (/^\d+\.\s/.test(trimmed)) {
+      const match = trimmed.match(/^(\d+)\.\s(.*)/);
       if (match) {
         return (
-          <div key={idx} className="flex items-start gap-2 ml-2">
+          <div key={idx} className="flex items-start gap-2 my-1" style={{ marginLeft: `${Math.max(0.5, indentLevel * 1.25)}rem` }}>
             <span className="font-semibold text-indigo-400 min-w-[18px]">{match[1]}.</span>
-            <span className="text-slate-200">{formatInlineFormatting(match[2])}</span>
+            <span className="text-slate-200 leading-relaxed">{formatInlineFormatting(match[2])}</span>
           </div>
         );
       }
     }
-    if (line.startsWith('> ')) {
+    if (trimmed.startsWith('> ')) {
       return (
-        <blockquote key={idx} className="border-l-4 border-indigo-500 pl-4 py-1.5 my-2 bg-indigo-500/10 rounded-r-xl text-indigo-200 font-medium italic">
-          {formatInlineFormatting(line.replace('> ', ''))}
+        <blockquote key={idx} className="border-l-4 border-indigo-500 pl-4 py-2 my-2.5 bg-indigo-500/10 rounded-r-xl text-indigo-200 font-medium italic">
+          {formatInlineFormatting(trimmed.replace('> ', ''))}
         </blockquote>
       );
     }
-    if (line === '---') {
+    if (trimmed === '---') {
       return <hr key={idx} className="border-slate-800 my-4" />;
     }
-    if (line.trim() === '') {
-      return <div key={idx} className="h-1" />;
+    if (trimmed === '') {
+      return <div key={idx} className="h-1.5" />;
     }
 
     return (
-      <p key={idx} className="text-slate-200">
+      <p key={idx} className="text-slate-200 leading-relaxed">
         {formatInlineFormatting(line)}
       </p>
     );
@@ -148,13 +166,42 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     }
 
     // Strip any accidental markdown image syntax to strictly guarantee 100% text-only output
-    const cleanText = text.replace(/!\[(.*?)\]\(.*?\)/g, '$1');
+    // and normalize CRLF to LF
+    const cleanText = text
+      .replace(/!\[(.*?)\]\(.*?\)/g, '$1')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n');
     const rawLines = cleanText.split('\n');
 
     const elements: React.ReactNode[] = [];
     let i = 0;
     while (i < rawLines.length) {
       const line = rawLines[i];
+
+      // Fenced Code Block Detection
+      if (line.trim().startsWith('```')) {
+        const lang = line.trim().replace(/^```/, '');
+        const codeLines: string[] = [];
+        i++;
+        while (i < rawLines.length && !rawLines[i].trim().startsWith('```')) {
+          codeLines.push(rawLines[i]);
+          i++;
+        }
+        elements.push(
+          <div key={`code-${i}`} className="my-3.5 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden font-mono text-xs shadow-inner">
+            {lang && (
+              <div className="px-3.5 py-1.5 bg-slate-900 border-b border-slate-800 text-indigo-300 font-bold uppercase tracking-wider text-[10px]">
+                {lang}
+              </div>
+            )}
+            <pre className="p-4 overflow-x-auto text-slate-200 leading-relaxed"><code>{codeLines.join('\n')}</code></pre>
+          </div>
+        );
+        i++;
+        continue;
+      }
+
+      // Markdown Table Detection
       if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
         const tableLines: string[] = [];
         while (i < rawLines.length && rawLines[i].trim().startsWith('|') && rawLines[i].trim().endsWith('|')) {
@@ -164,16 +211,17 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
         elements.push(renderTableBlock(tableLines, `tbl-${i}`));
         continue;
       }
+
       elements.push(renderSingleLine(line, i));
       i++;
     }
 
-    return <div className="space-y-3 text-sm leading-relaxed">{elements}</div>;
+    return <div className="space-y-2 text-xs sm:text-sm leading-relaxed">{elements}</div>;
   };
 
   const formatInlineFormatting = (text: string) => {
-    // Process bold (**text**) and code (`text`) tokens
-    const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+    // Process bold (**text**), code (`text`), math ($formula$) tokens
+    const parts = text.split(/(\*\*.*?\*\*|`.*?`|\$.*?\$)/g);
     return parts.map((part, i) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={i} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
@@ -183,6 +231,13 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           <code key={i} className="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 font-mono text-xs border border-slate-700/60">
             {part.slice(1, -1)}
           </code>
+        );
+      }
+      if (part.startsWith('$') && part.endsWith('$') && part.length > 2) {
+        return (
+          <span key={i} className="px-1.5 py-0.5 rounded bg-indigo-950/60 text-cyan-300 font-mono text-xs border border-indigo-800/40 font-semibold">
+            {part.slice(1, -1)}
+          </span>
         );
       }
       return part;

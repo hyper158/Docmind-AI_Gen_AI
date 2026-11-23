@@ -1,0 +1,73 @@
+{
+  "document_id": "doc_e2e_algo_syllabus",
+  "filename": "Advanced_Algorithms_Syllabus.pdf",
+  "status": "completed",
+  "final_summary": "# Educational Notes for Advanced_Algorithms_Syllabus.pdf\n\nNo extractable text was found across 3 pages. The PDF may be password-protected, encrypted, or contain only scanned images.",
+  "page_summaries": [
+    {
+      "page_number": 1,
+      "summary": "*Page 1: Empty page with no extractable text.*",
+      "status": "empty",
+      "is_chunked": false,
+      "chunk_count": 1,
+      "input_characters": 0,
+      "estimated_tokens": 0,
+      "processing_time_sec": 0.001,
+      "error_message": null
+    },
+    {
+      "page_number": 2,
+      "summary": "*Page 2: Empty page with no extractable text.*",
+      "status": "empty",
+      "is_chunked": false,
+      "chunk_count": 1,
+      "input_characters": 0,
+      "estimated_tokens": 0,
+      "processing_time_sec": 0.001,
+      "error_message": null
+    },
+    {
+      "page_number": 3,
+      "summary": "*Page 3: Empty page with no extractable text.*",
+      "status": "empty",
+      "is_chunked": false,
+      "chunk_count": 1,
+      "input_characters": 0,
+      "estimated_tokens": 0,
+      "processing_time_sec": 0.001,
+      "error_message": null
+    }
+  ],
+  "metadata": {
+    "document_id": "doc_e2e_algo_syllabus",
+    "filename": "Advanced_Algorithms_Syllabus.pdf",
+    "total_pages": 3,
+    "successful_pages": 0,
+    "empty_pages": 3,
+    "insufficient_text_pages": 0,
+    "failed_pages": 0,
+    "total_characters": 0,
+    "total_words": 0,
+    "is_scanned_or_image": true,
+    "total_duration_sec": 0.01,
+    "aggregation_levels": 0,
+    "section_count": 0,
+    "model_name": "Mock-Deterministic-LLM",
+    "detected_title": "Advanced Algorithms Syllabus",
+    "detected_units": [],
+    "detected_topics": [
+      {
+        "topic_id": "topic_1",
+        "title": "Section 1 (Pages 1–3)",
+        "pages": [
+          1,
+          2,
+          3
+        ],
+        "key_terms": []
+      }
+    ],
+    "glossary_terms": [],
+    "completed_at": "2026-11-23T17:01:41.893192+00:00"
+  }
+}

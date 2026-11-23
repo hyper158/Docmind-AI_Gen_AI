@@ -28,9 +28,9 @@ class Settings(BaseSettings):
     OPENROUTER_MODEL: str = "nvidia/nemotron-3.5-lightning:free"
     OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
     OPENROUTER_REASONING_EFFORT: str = "none"
-    OPENROUTER_MAX_TOKENS: int = 2048
+    OPENROUTER_MAX_TOKENS: int = 4096
     OPENROUTER_TEMPERATURE: float = 0.1
-    OPENROUTER_TIMEOUT_SECONDS: int = 30
+    OPENROUTER_TIMEOUT_SECONDS: int = 60
 
     # Local Embeddings & RAG
     EMBEDDING_MODEL_NAME: str = "BAAI/bge-small-en-v1.5"
@@ -53,7 +53,7 @@ class Settings(BaseSettings):
     SUMMARIZATION_CONCURRENCY_LIMIT: int = 3
     SUMMARIZATION_PAGE_CHUNK_SIZE: int = 3000
     SUMMARIZATION_PAGE_CHUNK_OVERLAP: int = 300
-    SUMMARIZATION_MAX_OUTPUT_TOKENS: int = 4096
+    SUMMARIZATION_MAX_OUTPUT_TOKENS: int = 8192
     SUMMARIZATION_TIMEOUT_SECONDS: int = 60
     SUMMARIZATION_MAX_RETRIES: int = 3
     SUMMARIZATION_RETRY_BACKOFF: float = 2.0

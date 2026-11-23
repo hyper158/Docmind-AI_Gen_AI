@@ -1,7 +1,7 @@
 import asyncio
 import time
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from langchain_core.messages import SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 
@@ -9,11 +9,12 @@ from app.core.config import settings
 from app.core.exceptions import LLMProviderError
 from app.core.logging_config import get_logger
 from app.services.summarization.page_summarizer import PageSummaryResult
+from app.services.summarization.document_analyzer import DocumentStructure, TopicNode
 from app.services.summarization.prompt_templates import (
-    SECTION_AGGREGATION_SYSTEM_PROMPT,
-    SECTION_AGGREGATION_USER_TEMPLATE,
-    FINAL_DOCUMENT_SUMMARY_SYSTEM_PROMPT,
-    FINAL_DOCUMENT_SUMMARY_USER_TEMPLATE,
+    TOPIC_CONSOLIDATION_SYSTEM_PROMPT,
+    TOPIC_CONSOLIDATION_USER_TEMPLATE,
+    COMPREHENSIVE_STUDY_NOTES_SYSTEM_PROMPT,
+    COMPREHENSIVE_STUDY_NOTES_USER_TEMPLATE,
 )
 
 logger = get_logger(__name__)
@@ -21,12 +22,13 @@ logger = get_logger(__name__)
 
 @dataclass
 class SectionSummary:
-    """Summary of a consecutive group of pages."""
+    """Summary of a consecutive group of pages or a dedicated topic module."""
 
     start_page: int
     end_page: int
     summary_text: str
     page_numbers: List[int] = field(default_factory=list)
+    topic_title: str = "Topic"
 
 
 @dataclass
@@ -45,8 +47,10 @@ class HierarchicalSummaryResult:
 
 class HierarchicalAggregator:
     """
-    Performs multi-level Map-Reduce aggregation over page summaries.
-    Preserves original page references, formulas, and technical depth.
+    Performs multi-level Map-Reduce aggregation over page summaries to produce
+    comprehensive educational study notes organized topic-by-topic.
+    Preserves original page references, formulas, comparisons, and technical depth.
+    Strict text-only output guaranteed.
     """
 
     def __init__(
@@ -70,7 +74,7 @@ class HierarchicalAggregator:
             max_retries=2,
             default_headers={
                 "HTTP-Referer": "https://docmind.ai",
-                "X-Title": "DocMind AI - Hierarchical Aggregator",
+                "X-Title": "DocMind AI - Educational Notes Synthesizer",
             },
         )
 
@@ -78,24 +82,48 @@ class HierarchicalAggregator:
         if self.mock_mode:
             await asyncio.sleep(0.05)
             return (
-                f"# Master Summary for {context_name}\n\n"
-                "## 1. Executive Document Overview\n"
-                "Comprehensive overview of the document synthesized across all verified pages.\n\n"
-                "## 2. Main Themes & Structural Breakdown\n"
-                "- Core Syllabus Topic A: Comprehensive analysis [Pages 1-3].\n"
-                "- Advanced Architecture B: Methodological walkthrough [Pages 4-8].\n\n"
-                "## 3. Comprehensive Concept Analysis & Detailed Explanations\n"
-                "Detailed walkthrough of algorithms and concepts.\n\n"
-                "## 4. Formal Definitions & Technical Terminology Glossary\n"
-                "- **Term 1**: Specific technical definition.\n\n"
-                "## 5. Methodologies, Processes, & Sequences\n"
-                "Step 1: Ingestion. Step 2: Indexing. Step 3: Retrieval.\n\n"
-                "## 6. Quantitative Data, Formulas, & Comparative Analyses\n"
-                "- Precision: 99.4%, Recall: 92.1%.\n\n"
-                "## 7. Core Conclusions & Critical Takeaways\n"
-                "Final key conclusions grounded in source pages.\n\n"
-                "## 8. Page Citation Matrix\n"
-                "- Foundations: Pages 1-3\n- Advanced Systems: Pages 4-8\n"
+                f"# Comprehensive Study Notes: {context_name}\n\n"
+                "## 1. Executive Overview & Learning Objectives\n"
+                "This document provides an in-depth academic exploration of core principles, methodologies, "
+                "and architectural frameworks. The overarching purpose of this course material is to equip students "
+                "with theoretical foundations and practical applications across all syllabus modules.\n\n"
+                "## 2. Dynamic Topic-by-Topic Comprehensive Teaching & Notes\n\n"
+                "### Topic 1: Foundational Architecture & Core Mechanics ([Pages 1-2])\n"
+                "- **Core Concept & Definition**: **System Architecture** refers to the conceptual model that defines "
+                "the structure, behavior, and more views of a distributed computational system.\n"
+                "- **How It Works & Underlying Mechanism**: Incoming data payloads are partitioned and ingested into pipeline stages. "
+                "Each stage executes transformations in isolated memory buffers before writing to persistent storage.\n"
+                "- **Key Components & Terminology**: **Ingestion Gateway**, **Processing Pipeline**, **State Storage**.\n"
+                "- **Step-by-Step Process / Methodology**:\n"
+                "  1. Ingestion of raw payloads from client nodes.\n"
+                "  2. Validation against schema specifications.\n"
+                "  3. Transformation and feature normalization.\n"
+                "  4. Commit to immutable ledger or index.\n"
+                "- **Comparison & Trade-offs**:\n\n"
+                "| Feature | Pipeline Processing | Batch Processing |\n"
+                "| :--- | :--- | :--- |\n"
+                "| Latency | Sub-second real-time | Periodic batch delay |\n"
+                "| Resource Utilization | Continuous baseline | Burst-oriented spikes |\n"
+                "| Fault Tolerance | Stream checkpoints | Complete job restart |\n\n"
+                "- **Examples**: (Source Example: An e-commerce platform processing transaction records) "
+                "(Pedagogical Example: Like a fast-food assembly line where each station specializes in one preparation task).\n"
+                "- **Advantages & Limitations**: High throughput and immediate consistency, but requires continuous stream monitoring.\n\n"
+                "### Topic 2: Optimization Strategies & Algorithmic Models ([Pages 3-5])\n"
+                "- **Core Concept & Definition**: **Algorithmic Optimization** minimizes computational overhead while maximizing precision.\n"
+                "- **Formulas & Quantitative Metrics**: Efficiency gain equation: $E = \\frac{T_{baseline} - T_{optimized}}{T_{baseline}} \\times 100\\%$.\n"
+                "- **How It Works**: Iterative refinement with gradient descent converges toward global minima.\n\n"
+                "## 3. Technical Terminology & Formal Definitions Glossary\n"
+                "- **Ingestion Gateway**: Hardware or software boundary receiving inbound signals [Page 1].\n"
+                "- **Pipeline Checkpoint**: State snapshot allowing deterministic resume upon node failure [Page 2].\n"
+                "- **Convergence Rate**: Speed at which optimization algorithms approach optimal parameters [Page 4].\n\n"
+                "## 4. Key Formulas, Methodologies & Quantitative Rules\n"
+                "- **Efficiency Ratio**: $E = \\frac{\\Delta T}{T_0} \\times 100\\%$\n"
+                "- **Threshold Constraint**: Convergence criterion $\\epsilon \\le 10^{-4}$\n\n"
+                "## 5. Comprehensive Summary & Master Page Citation Matrix\n\n"
+                "| Module / Topic | Core Concepts | Supporting Pages |\n"
+                "| :--- | :--- | :--- |\n"
+                "| Foundational Architecture | Ingestion, Buffering, Pipelines | Pages 1-2 |\n"
+                "| Optimization Models | Convergence, Gradient Descent, Benchmarking | Pages 3-5 |\n"
             )
 
         llm = self._get_llm()
@@ -117,22 +145,21 @@ class HierarchicalAggregator:
         document_id: str,
         filename: str,
         page_summaries: List[PageSummaryResult],
+        structure: Optional[DocumentStructure] = None,
     ) -> HierarchicalSummaryResult:
         """
         Executes tree-structured aggregation over page summaries:
-        Level 1: Page summaries -> Group into section summaries (if > batch_size pages)
-        Level 2: Section summaries -> Final comprehensive master summary
+        Level 1: Page summaries -> Group into section/topic summaries
+        Level 2: Topic summaries -> Final comprehensive master educational notes
         """
         start_time = time.perf_counter()
         total_pages = len(page_summaries)
 
-        # Filter out completely empty or failed pages for cleaner synthesis, but keep page numbers
         usable_pages = [p for p in page_summaries if p.status in ("completed", "partial")]
         if not usable_pages:
-            # Handle case where all pages had no text or failed
             elapsed = round(time.perf_counter() - start_time, 2)
             msg = (
-                f"# Summary for {filename}\n\n"
+                f"# Educational Notes for {filename}\n\n"
                 f"No extractable text was found across {total_pages} pages. "
                 "The PDF may be password-protected, encrypted, or contain only scanned images."
             )
@@ -149,7 +176,22 @@ class HierarchicalAggregator:
         section_summaries: List[SectionSummary] = []
         levels = 1
 
-        # If document has more than batch_size pages, perform intermediate section aggregation
+        # Build structure outline string for the LLM
+        structure_outline = ""
+        if structure and structure.topics:
+            outline_lines = [f"Document: {structure.detected_title} ({structure.total_pages} pages)"]
+            if structure.detected_units:
+                outline_lines.append(f"Units/Chapters detected: {', '.join(structure.detected_units)}")
+            outline_lines.append("Topic Outline:")
+            for t in structure.topics:
+                outline_lines.append(f"- {t.title} (Pages {', '.join(map(str, t.page_numbers))})")
+                if t.key_terms:
+                    outline_lines.append(f"  Key Terms: {', '.join(t.key_terms[:5])}")
+            structure_outline = "\n".join(outline_lines)
+        else:
+            structure_outline = f"Standard sequential breakdown across {total_pages} pages."
+
+        # Topic/Section Aggregation
         if len(usable_pages) > self.batch_size:
             levels = 2
             chunks_of_pages = [
@@ -158,17 +200,22 @@ class HierarchicalAggregator:
             ]
 
             logger.info(
-                f"Aggregating {len(usable_pages)} pages into {len(chunks_of_pages)} sections (batch_size={self.batch_size})."
+                f"Aggregating {len(usable_pages)} pages into {len(chunks_of_pages)} topic sections (batch_size={self.batch_size})."
             )
 
-            async def _summarize_section(batch: List[PageSummaryResult]) -> SectionSummary:
+            async def _summarize_section(batch: List[PageSummaryResult], batch_idx: int) -> SectionSummary:
                 start_p = batch[0].page_number
                 end_p = batch[-1].page_number
+                topic_title = f"Section {batch_idx + 1}"
+                if structure and batch_idx < len(structure.topics):
+                    topic_title = structure.topics[batch_idx].title
+
                 pages_formatted = "\n\n".join(
                     f"--- [Page {p.page_number}] ---\n{p.summary_text}" for p in batch
                 )
-                prompt = SECTION_AGGREGATION_USER_TEMPLATE.format(
+                prompt = TOPIC_CONSOLIDATION_USER_TEMPLATE.format(
                     filename=filename,
+                    topic_title=topic_title,
                     start_page=start_p,
                     end_page=end_p,
                     page_summaries=pages_formatted,
@@ -176,7 +223,7 @@ class HierarchicalAggregator:
                 try:
                     summary_text = await self._invoke_llm(
                         [
-                            SystemMessage(content=SECTION_AGGREGATION_SYSTEM_PROMPT),
+                            SystemMessage(content=TOPIC_CONSOLIDATION_SYSTEM_PROMPT),
                             HumanMessage(content=prompt),
                         ],
                         context_name=f"Pages {start_p}-{end_p}",
@@ -190,18 +237,17 @@ class HierarchicalAggregator:
                     end_page=end_p,
                     summary_text=summary_text,
                     page_numbers=[p.page_number for p in batch],
+                    topic_title=topic_title,
                 )
 
-            section_tasks = [_summarize_section(b) for b in chunks_of_pages]
+            section_tasks = [_summarize_section(b, idx) for idx, b in enumerate(chunks_of_pages)]
             section_summaries = await asyncio.gather(*section_tasks)
 
-            # Assemble content for final master summary from section summaries
             hierarchical_content = "\n\n========================================\n\n".join(
-                f"## Section: Pages {s.start_page} to {s.end_page}\n{s.summary_text}"
+                f"## Topic Module: {s.topic_title} (Pages {s.start_page} to {s.end_page})\n{s.summary_text}"
                 for s in section_summaries
             )
         else:
-            # Small document: page summaries directly form section summaries
             for p in usable_pages:
                 section_summaries.append(
                     SectionSummary(
@@ -209,32 +255,34 @@ class HierarchicalAggregator:
                         end_page=p.page_number,
                         summary_text=p.summary_text,
                         page_numbers=[p.page_number],
+                        topic_title=f"Page {p.page_number}",
                     )
                 )
             hierarchical_content = "\n\n".join(
                 f"--- [Page {p.page_number}] ---\n{p.summary_text}" for p in usable_pages
             )
 
-        # Generate Final Master Document Summary
-        logger.info(f"Generating final master document summary for '{filename}'...")
-        final_prompt = FINAL_DOCUMENT_SUMMARY_USER_TEMPLATE.format(
+        # Generate Master Educational Study Notes
+        logger.info(f"Generating comprehensive educational study notes for '{filename}'...")
+        final_prompt = COMPREHENSIVE_STUDY_NOTES_USER_TEMPLATE.format(
             filename=filename,
             total_pages=total_pages,
+            structure_outline=structure_outline,
             hierarchical_content=hierarchical_content,
         )
 
         try:
             final_summary = await self._invoke_llm(
                 [
-                    SystemMessage(content=FINAL_DOCUMENT_SUMMARY_SYSTEM_PROMPT),
+                    SystemMessage(content=COMPREHENSIVE_STUDY_NOTES_SYSTEM_PROMPT),
                     HumanMessage(content=final_prompt),
                 ],
                 context_name=filename,
             )
             err_msg = None
         except Exception as final_err:
-            logger.error(f"Error generating final summary for {filename}: {final_err}")
-            final_summary = f"# Document Summary: {filename}\n\n{hierarchical_content}"
+            logger.error(f"Error generating final study notes for {filename}: {final_err}")
+            final_summary = f"# Comprehensive Study Notes: {filename}\n\n{hierarchical_content}"
             err_msg = str(final_err)
 
         elapsed = round(time.perf_counter() - start_time, 2)

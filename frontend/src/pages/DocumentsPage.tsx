@@ -41,6 +41,103 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
   const totalTokens = files.reduce((acc, f) => acc + (f.tokensCount || 0), 0);
   const totalPages = files.reduce((acc, f) => acc + (f.pages || 0), 0);
 
+  // Helper to render Markdown study notes with tables and headers
+  const renderMarkdownNotes = (content: string) => {
+    if (!content) return null;
+    const cleanText = content.replace(/!\[(.*?)\]\(.*?\)/g, '$1');
+    const lines = cleanText.split('\n');
+    const elements: React.ReactNode[] = [];
+    let i = 0;
+
+    const formatInline = (str: string) => {
+      const parts = str.split(/(\*\*.*?\*\*|`.*?`)/g);
+      return parts.map((part, pIdx) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+          return <strong key={pIdx} className="font-semibold text-white">{part.slice(2, -2)}</strong>;
+        }
+        if (part.startsWith('`') && part.endsWith('`')) {
+          return <code key={pIdx} className="px-1.5 py-0.5 rounded bg-slate-800 text-indigo-300 font-mono text-xs">{part.slice(1, -1)}</code>;
+        }
+        return part;
+      });
+    };
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Table detection
+      if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+        const tableLines: string[] = [];
+        while (i < lines.length && lines[i].trim().startsWith('|') && lines[i].trim().endsWith('|')) {
+          tableLines.push(lines[i].trim());
+          i++;
+        }
+        if (tableLines.length >= 2) {
+          const headerCells = tableLines[0].split('|').slice(1, -1).map(c => c.trim());
+          const isDivider = tableLines[1].includes('---');
+          const dataRows = tableLines.slice(isDivider ? 2 : 1).map(r => r.split('|').slice(1, -1).map(c => c.trim()));
+
+          elements.push(
+            <div key={`tbl-${i}`} className="overflow-x-auto my-3 rounded-xl border border-slate-800 bg-slate-950/80 shadow-inner">
+              <table className="min-w-full divide-y divide-slate-800 text-xs">
+                <thead>
+                  <tr className="bg-slate-900">
+                    {headerCells.map((h, hIdx) => (
+                      <th key={hIdx} className="px-3 py-2 text-left font-bold text-indigo-300">{formatInline(h)}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/60">
+                  {dataRows.map((row, rIdx) => (
+                    <tr key={rIdx} className={rIdx % 2 === 0 ? 'bg-transparent' : 'bg-slate-900/40'}>
+                      {row.map((cell, cIdx) => (
+                        <td key={cIdx} className="px-3 py-1.5 text-slate-300">{formatInline(cell)}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        }
+        continue;
+      }
+
+      if (line.startsWith('# ')) {
+        elements.push(<h1 key={i} className="text-xl font-bold text-white mt-4 mb-2">{line.replace('# ', '')}</h1>);
+      } else if (line.startsWith('## ')) {
+        elements.push(<h2 key={i} className="text-lg font-extrabold text-indigo-300 mt-5 mb-2">{line.replace('## ', '')}</h2>);
+      } else if (line.startsWith('### ')) {
+        elements.push(<h3 key={i} className="text-sm font-bold text-slate-100 mt-3 mb-1.5">{line.replace('### ', '')}</h3>);
+      } else if (line.startsWith('- ') || line.startsWith('* ')) {
+        elements.push(
+          <div key={i} className="flex items-start gap-2 ml-2 my-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0" />
+            <span className="text-slate-200">{formatInline(line.substring(2))}</span>
+          </div>
+        );
+      } else if (/^\d+\.\s/.test(line)) {
+        const match = line.match(/^(\d+)\.\s(.*)/);
+        if (match) {
+          elements.push(
+            <div key={i} className="flex items-start gap-2 ml-2 my-1">
+              <span className="font-semibold text-indigo-400 min-w-[18px]">{match[1]}.</span>
+              <span className="text-slate-200">{formatInline(match[2])}</span>
+            </div>
+          );
+        }
+      } else if (line === '---') {
+        elements.push(<hr key={i} className="border-slate-800 my-3" />);
+      } else if (line.trim() === '') {
+        elements.push(<div key={i} className="h-1" />);
+      } else {
+        elements.push(<p key={i} className="text-slate-200 leading-relaxed">{formatInline(line)}</p>);
+      }
+      i++;
+    }
+    return elements;
+  };
+
   const filteredFiles = files.filter(file => {
     const matchesSearch = file.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (file.summary && file.summary.toLowerCase().includes(searchQuery.toLowerCase()));
@@ -448,8 +545,8 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
               {summaryTab === 'master' && (
                 <div className="space-y-4">
                   {summaryData?.final_summary ? (
-                    <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 whitespace-pre-wrap font-sans text-xs sm:text-[13px] leading-relaxed space-y-4 text-slate-200">
-                      {summaryData.final_summary}
+                    <div className="p-5 rounded-2xl bg-slate-950/80 border border-slate-800 font-sans text-xs sm:text-[13px] leading-relaxed space-y-3 text-slate-200">
+                      {renderMarkdownNotes(summaryData.final_summary)}
                     </div>
                   ) : (
                     <div className="text-center p-10 space-y-3 bg-slate-950/50 rounded-2xl border border-slate-800">
@@ -522,8 +619,8 @@ export const DocumentsPage: React.FC<DocumentsPageProps> = ({
                               </span>
                             </div>
 
-                            <div className="whitespace-pre-wrap text-slate-200 leading-relaxed text-xs sm:text-[13px]">
-                              {activePage.summary}
+                            <div className="text-slate-200 leading-relaxed text-xs sm:text-[13px] space-y-2">
+                              {renderMarkdownNotes(activePage.summary)}
                             </div>
                           </div>
                         );

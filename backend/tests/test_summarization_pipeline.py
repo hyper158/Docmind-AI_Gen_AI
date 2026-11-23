@@ -13,6 +13,8 @@ from app.services.summarization.token_budget import (
 from app.services.summarization.page_summarizer import PageSummarizer
 from app.services.summarization.hierarchical_aggregator import HierarchicalAggregator
 from app.services.summarization.summarization_service import SummarizationService
+from app.services.summarization.document_analyzer import DocumentAnalyzer
+from app.services.llm_service import LLMService
 
 
 @pytest.fixture(scope="module", autouse=True)
@@ -183,8 +185,8 @@ async def test_hierarchical_aggregator_multi_level():
     assert result.total_pages == 6
     assert result.aggregation_levels == 2  # Level 1 (pages) -> Level 2 (sections) -> Master
     assert len(result.section_summaries) == 2  # 6 pages / batch_size 3 = 2 sections
-    assert "Executive Document Overview" in result.final_summary
-    assert "Page Citation Matrix" in result.final_summary
+    assert "Executive Overview" in result.final_summary
+    assert "Citation Matrix" in result.final_summary
 
 
 # ------------------ End-to-End Summarization Service Tests ------------------
@@ -232,3 +234,62 @@ async def test_summarization_service_full_workflow(tmp_path):
 
     # Clean up test document
     Repository.delete_document(doc_id)
+
+
+# ------------------ Dynamic Structure Detection Tests ------------------
+
+def test_document_analyzer_dynamic_topics():
+    """Verify dynamic structure detection extracts topics, key terms, and flags without hardcoding."""
+    pages = [
+        ExtractedPage(
+            document_id="doc_dyn",
+            filename="Distributed_Systems_Syllabus.pdf",
+            page_number=1,
+            page_text="Chapter 1: Distributed Consensus and Fault Tolerance\n"
+                      "Consensus is a fundamental problem in distributed computing.\n"
+                      "Key terms include Raft, Paxos, and Byzantine Agreement.",
+            char_count=180,
+            status="success",
+        ),
+        ExtractedPage(
+            document_id="doc_dyn",
+            filename="Distributed_Systems_Syllabus.pdf",
+            page_number=2,
+            page_text="Chapter 2: Replication and Performance Benchmarking\n"
+                      "Step 1: Leader election. Step 2: Log replication. Step 3: Commit.\n"
+                      "Formula: Latency L = RTT + ProcessingTime. Comparison of Raft vs Paxos.",
+            char_count=210,
+            status="success",
+        ),
+    ]
+
+    structure = DocumentAnalyzer.analyze_document("doc_dyn", "Distributed_Systems_Syllabus.pdf", pages)
+    assert structure.total_pages == 2
+    assert structure.has_formal_chapters is True
+    assert len(structure.topics) >= 1
+    assert any("consensus" in t.title.lower() for t in structure.topics)
+
+    # Verify technical flags
+    topic2 = [t for t in structure.topics if t.page_numbers == [2] or 2 in t.page_numbers]
+    if topic2:
+        assert topic2[0].has_processes is True or topic2[0].has_comparisons is True
+
+
+# ------------------ Text-Only Output Enforcement Tests ------------------
+
+def test_llm_service_sanitize_text_only():
+    """Verify text-only sanitizer removes images, HTML img tags, and replaces mermaid diagrams."""
+    raw_output = (
+        "Here are the study notes.\n\n"
+        "![System Architecture](https://example.com/arch.png)\n\n"
+        "<img src='flowchart.jpg' alt='Workflow'>\n\n"
+        "```mermaid\ngraph TD\nA[Ingest] --> B[Transform] --> C[Load]\n```\n\n"
+        "| Step | Action |\n| 1 | Extract |\n| 2 | Load |\n"
+    )
+
+    clean_output = LLMService._sanitize_text_only(raw_output)
+    assert "https://example.com/arch.png" not in clean_output
+    assert "<img" not in clean_output
+    assert "```mermaid" not in clean_output
+    # Tables and textual explanations must remain intact
+    assert "| Step | Action |" in clean_output

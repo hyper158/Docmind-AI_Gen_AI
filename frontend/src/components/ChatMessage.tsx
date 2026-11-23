@@ -30,7 +30,114 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // Markdown Renderer Simulation
+  // Markdown Table Renderer
+  const renderTableBlock = (lines: string[], key: string) => {
+    if (lines.length < 2) return null;
+    const headerLine = lines[0];
+    const isDivider = lines[1].includes('---');
+    const dataStartIdx = isDivider ? 2 : 1;
+
+    const parseRow = (rowStr: string) =>
+      rowStr
+        .split('|')
+        .slice(1, -1)
+        .map(c => c.trim());
+
+    const headers = parseRow(headerLine);
+    const dataRows = lines.slice(dataStartIdx).map(parseRow);
+
+    return (
+      <div key={key} className="overflow-x-auto my-4 rounded-xl border border-slate-800 bg-slate-950/70 shadow-inner">
+        <table className="min-w-full divide-y divide-slate-800 text-xs">
+          <thead>
+            <tr className="bg-slate-900/90">
+              {headers.map((h, hIdx) => (
+                <th key={hIdx} className="px-3.5 py-2.5 text-left font-bold text-indigo-300 tracking-wider">
+                  {formatInlineFormatting(h)}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-800/60">
+            {dataRows.map((row, rIdx) => (
+              <tr key={rIdx} className={rIdx % 2 === 0 ? 'bg-transparent' : 'bg-slate-900/30'}>
+                {row.map((cell, cIdx) => (
+                  <td key={cIdx} className="px-3.5 py-2 text-slate-300">
+                    {formatInlineFormatting(cell)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
+  const renderSingleLine = (line: string, idx: number) => {
+    if (line.startsWith('# ')) {
+      return (
+        <h1 key={idx} className="text-xl font-bold text-white mt-4 mb-2">
+          {line.replace('# ', '')}
+        </h1>
+      );
+    }
+    if (line.startsWith('## ')) {
+      return (
+        <h2 key={idx} className="text-lg font-extrabold text-indigo-300 mt-5 mb-2">
+          {line.replace('## ', '')}
+        </h2>
+      );
+    }
+    if (line.startsWith('### ')) {
+      return (
+        <h3 key={idx} className="text-base font-bold text-white mt-4 mb-2 flex items-center gap-2">
+          {line.replace('### ', '')}
+        </h3>
+      );
+    }
+    if (line.startsWith('- ') || line.startsWith('* ')) {
+      const content = line.substring(2);
+      return (
+        <div key={idx} className="flex items-start gap-2 ml-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0" />
+          <span className="text-slate-200">{formatInlineFormatting(content)}</span>
+        </div>
+      );
+    }
+    if (/^\d+\.\s/.test(line)) {
+      const match = line.match(/^(\d+)\.\s(.*)/);
+      if (match) {
+        return (
+          <div key={idx} className="flex items-start gap-2 ml-2">
+            <span className="font-semibold text-indigo-400 min-w-[18px]">{match[1]}.</span>
+            <span className="text-slate-200">{formatInlineFormatting(match[2])}</span>
+          </div>
+        );
+      }
+    }
+    if (line.startsWith('> ')) {
+      return (
+        <blockquote key={idx} className="border-l-4 border-indigo-500 pl-4 py-1.5 my-2 bg-indigo-500/10 rounded-r-xl text-indigo-200 font-medium italic">
+          {formatInlineFormatting(line.replace('> ', ''))}
+        </blockquote>
+      );
+    }
+    if (line === '---') {
+      return <hr key={idx} className="border-slate-800 my-4" />;
+    }
+    if (line.trim() === '') {
+      return <div key={idx} className="h-1" />;
+    }
+
+    return (
+      <p key={idx} className="text-slate-200">
+        {formatInlineFormatting(line)}
+      </p>
+    );
+  };
+
+  // Text-Only Markdown Renderer Simulation
   const renderFormattedContent = (text: string) => {
     if (!text || !text.trim()) {
       return (
@@ -40,74 +147,28 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
       );
     }
 
-    const lines = text.split('\n');
-    
-    return (
-      <div className="space-y-3 text-sm leading-relaxed">
-        {lines.map((line, idx) => {
-          if (line.startsWith('# ')) {
-            return (
-              <h1 key={idx} className="text-xl font-bold text-white mt-4 mb-2">
-                {line.replace('# ', '')}
-              </h1>
-            );
-          }
-          if (line.startsWith('## ')) {
-            return (
-              <h2 key={idx} className="text-lg font-extrabold text-indigo-300 mt-5 mb-2">
-                {line.replace('## ', '')}
-              </h2>
-            );
-          }
-          if (line.startsWith('### ')) {
-            return (
-              <h3 key={idx} className="text-base font-bold text-white mt-4 mb-2 flex items-center gap-2">
-                {line.replace('### ', '')}
-              </h3>
-            );
-          }
-          if (line.startsWith('- ') || line.startsWith('* ')) {
-            const content = line.substring(2);
-            return (
-              <div key={idx} className="flex items-start gap-2 ml-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0" />
-                <span className="text-slate-200">{formatInlineFormatting(content)}</span>
-              </div>
-            );
-          }
-          if (/^\d+\.\s/.test(line)) {
-            const match = line.match(/^(\d+)\.\s(.*)/);
-            if (match) {
-              return (
-                <div key={idx} className="flex items-start gap-2 ml-2">
-                  <span className="font-semibold text-indigo-400 min-w-[18px]">{match[1]}.</span>
-                  <span className="text-slate-200">{formatInlineFormatting(match[2])}</span>
-                </div>
-              );
-            }
-          }
-          if (line.startsWith('> ')) {
-            return (
-              <blockquote key={idx} className="border-l-4 border-indigo-500 pl-4 py-1.5 my-2 bg-indigo-500/10 rounded-r-xl text-indigo-200 font-medium italic">
-                {formatInlineFormatting(line.replace('> ', ''))}
-              </blockquote>
-            );
-          }
-          if (line === '---') {
-            return <hr key={idx} className="border-slate-800 my-4" />;
-          }
-          if (line.trim() === '') {
-            return <div key={idx} className="h-1" />;
-          }
+    // Strip any accidental markdown image syntax to strictly guarantee 100% text-only output
+    const cleanText = text.replace(/!\[(.*?)\]\(.*?\)/g, '$1');
+    const rawLines = cleanText.split('\n');
 
-          return (
-            <p key={idx} className="text-slate-200">
-              {formatInlineFormatting(line)}
-            </p>
-          );
-        })}
-      </div>
-    );
+    const elements: React.ReactNode[] = [];
+    let i = 0;
+    while (i < rawLines.length) {
+      const line = rawLines[i];
+      if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+        const tableLines: string[] = [];
+        while (i < rawLines.length && rawLines[i].trim().startsWith('|') && rawLines[i].trim().endsWith('|')) {
+          tableLines.push(rawLines[i].trim());
+          i++;
+        }
+        elements.push(renderTableBlock(tableLines, `tbl-${i}`));
+        continue;
+      }
+      elements.push(renderSingleLine(line, i));
+      i++;
+    }
+
+    return <div className="space-y-3 text-sm leading-relaxed">{elements}</div>;
   };
 
   const formatInlineFormatting = (text: string) => {

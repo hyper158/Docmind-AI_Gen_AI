@@ -9,6 +9,7 @@ from app.core.exceptions import DocumentNotFoundError, DocumentProcessingError
 from app.core.logging_config import get_logger
 from app.database.repository import Repository
 from app.services.pdf_service import PDFService, ExtractionReport
+from app.services.summarization.document_analyzer import DocumentAnalyzer, DocumentStructure
 from app.services.summarization.page_summarizer import PageSummarizer, PageSummaryResult
 from app.services.summarization.hierarchical_aggregator import (
     HierarchicalAggregator,
@@ -118,6 +119,16 @@ class SummarizationService:
                 pages_to_process = pages_to_process[:max_pages]
 
             total_pages = len(pages_to_process)
+            self._update_job_progress(document_id, stage="structure_analysis", total_pages=total_pages, percent=10)
+
+            # Stage 1b: Dynamic Structure & Topic Detection
+            logger.info(f"Stage 1b: Detecting dynamic structure and topic hierarchy for '{doc.filename}'...")
+            doc_structure: DocumentStructure = DocumentAnalyzer.analyze_document(
+                document_id=document_id,
+                filename=doc.original_filename or doc.filename,
+                pages=pages_to_process,
+            )
+
             self._update_job_progress(document_id, stage="page_summarization", total_pages=total_pages, percent=15)
 
             # 5. Stage 2: Intelligent Page-Level Processing
@@ -140,14 +151,15 @@ class SummarizationService:
             failed_pages = sum(1 for p in page_summary_results if p.status == "failed")
             successful_pages = sum(1 for p in page_summary_results if p.status in ("completed", "partial"))
 
-            # 6. Stage 3: Hierarchical Summary Generation
+            # 6. Stage 3 & 4: Hierarchical Aggregation & Educational Notes Generation
             self._update_job_progress(document_id, stage="hierarchical_aggregation", percent=85)
-            logger.info(f"Stage 3: Hierarchically aggregating page summaries for '{doc.filename}'...")
+            logger.info(f"Stage 3 & 4: Hierarchically synthesizing educational study notes for '{doc.filename}'...")
 
             hierarchical_result: HierarchicalSummaryResult = await self.aggregator.aggregate(
                 document_id=document_id,
                 filename=doc.original_filename or doc.filename,
                 page_summaries=page_summary_results,
+                structure=doc_structure,
             )
 
             self._update_job_progress(document_id, stage="completed", percent=100)
@@ -186,6 +198,18 @@ class SummarizationService:
                 "aggregation_levels": hierarchical_result.aggregation_levels,
                 "section_count": len(hierarchical_result.section_summaries),
                 "model_name": settings.OPENROUTER_MODEL if not self.mock_mode else "Mock-Deterministic-LLM",
+                "detected_title": doc_structure.detected_title,
+                "detected_units": doc_structure.detected_units,
+                "detected_topics": [
+                    {
+                        "topic_id": t.topic_id,
+                        "title": t.title,
+                        "pages": t.page_numbers,
+                        "key_terms": t.key_terms,
+                    }
+                    for t in doc_structure.topics
+                ],
+                "glossary_terms": doc_structure.glossary_terms,
                 "completed_at": datetime.now(timezone.utc).isoformat(),
             }
 

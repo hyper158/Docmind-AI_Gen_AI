@@ -144,7 +144,7 @@ class ChatService:
         # 5. Relevance Filtering
         filtered_chunks = self.retrieval_service.filter_by_relevance(retrieved_raw)
 
-        # 5b. Document-wide summarization enhancement if comprehensive summary exists
+        # 5b. Document-wide study notes & summarization enhancement
         is_summary_request = any(
             phrase in question.lower()
             for phrase in [
@@ -156,6 +156,16 @@ class ChatService:
                 "syllabus summary",
                 "comprehensive summary",
                 "full document summary",
+                "study notes",
+                "educational notes",
+                "teach me",
+                "teach the syllabus",
+                "explain the syllabus",
+                "syllabus overview",
+                "topic by topic",
+                "complete notes",
+                "comprehensive notes",
+                "revision notes",
             ]
         )
         if is_summary_request and target_doc_ids:
@@ -165,14 +175,15 @@ class ChatService:
                     from langchain_core.documents import Document
                     doc_obj = Repository.get_document_by_id(did)
                     fn = doc_obj.filename if doc_obj else "Document"
+                    # Feed up to 6000 chars of comprehensive study notes into priority context
                     summary_doc = Document(
-                        page_content=f"Comprehensive Document Summary for {fn}:\n{sum_rec['final_summary'][:4000]}",
+                        page_content=f"Comprehensive Educational Study Notes for {fn}:\n{sum_rec['final_summary'][:6000]}",
                         metadata={
                             "document_id": did,
                             "filename": fn,
                             "source": fn,
                             "page": 1,
-                            "chunk_id": f"{did}_summary_master",
+                            "chunk_id": f"{did}_study_notes_master",
                         },
                     )
                     from app.services.retrieval_service import RetrievedChunk

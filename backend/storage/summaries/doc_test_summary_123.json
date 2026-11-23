@@ -2,7 +2,7 @@
   "document_id": "doc_test_summary_123",
   "filename": "test_doc.pdf",
   "status": "completed",
-  "final_summary": "# Summary for test_doc.pdf\n\nNo extractable text was found across 2 pages. The PDF may be password-protected, encrypted, or contain only scanned images.",
+  "final_summary": "# Educational Notes for test_doc.pdf\n\nNo extractable text was found across 2 pages. The PDF may be password-protected, encrypted, or contain only scanned images.",
   "page_summaries": [
     {
       "page_number": 1,
@@ -42,6 +42,20 @@
     "aggregation_levels": 0,
     "section_count": 0,
     "model_name": "Mock-Deterministic-LLM",
-    "completed_at": "2026-11-23T15:51:04.703107+00:00"
+    "detected_title": "Test Doc",
+    "detected_units": [],
+    "detected_topics": [
+      {
+        "topic_id": "topic_1",
+        "title": "Section 1 (Pages 1–2)",
+        "pages": [
+          1,
+          2
+        ],
+        "key_terms": []
+      }
+    ],
+    "glossary_terms": [],
+    "completed_at": "2026-11-23T16:35:32.097897+00:00"
   }
 }

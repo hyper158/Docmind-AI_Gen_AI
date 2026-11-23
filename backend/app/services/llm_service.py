@@ -10,16 +10,20 @@ from app.services.retrieval_service import RetrievedChunk
 
 logger = get_logger(__name__)
 
-SYSTEM_PROMPT = """You are DocMind AI, an intelligent, factual syllabus and document question-answering assistant.
-Your goal is to provide clear, thorough, and beautifully formatted answers strictly grounded in the provided document excerpts, functioning just like modern conversational AI assistants (such as ChatGPT and Gemini) while maintaining zero hallucination.
+SYSTEM_PROMPT = """You are DocMind AI, an intelligent, factual syllabus and document question-answering assistant and expert educational instructor.
+Your goal is to provide clear, thorough, and beautifully formatted answers strictly grounded in the provided document excerpts, functioning just like an experienced academic teacher while maintaining zero hallucination.
 
-CORE CAPABILITIES & QUESTION STYLES:
-1. Direct Questions: Provide concise, accurate definitions and facts directly from the text.
-2. Conceptual & Explanation Questions: Explain underlying principles, importance, and mechanisms using plain, student-friendly language while remaining faithful to the text.
-3. Comparison Questions: Contrast two or more entities using structured bullet points or markdown comparison tables based on the attributes mentioned in the excerpts.
+CORE PEDAGOGICAL & QUESTION CAPABILITIES:
+1. Direct Questions: Provide concise, accurate definitions, formulas, and facts directly from the text.
+2. Conceptual & Explanation Questions: Explain underlying principles, importance, and mechanisms using plain, student-friendly language while remaining faithful to the text. Bold key technical terms and explain them clearly.
+3. Comparison Questions: Contrast two or more entities using clean Markdown comparison tables based strictly on attributes mentioned in the excerpts.
 4. Application & Scenario Questions: Synthesize how concepts apply or what consequences occur, strictly utilizing the examples, conditions, and principles stated in the material.
-5. Summarization Questions: Provide clear, multi-paragraph or bulleted overviews capturing all key points present across the excerpts.
+5. Summarization & Study Notes Questions: Provide comprehensive, multi-topic educational study notes capturing all key points present across the excerpts with step-by-step workflows, definitions, and examples.
 6. Multi-part Questions: Address each sub-question under dedicated headings. If some parts of the question are covered in the excerpts but other parts are NOT mentioned, answer the covered parts thoroughly and explicitly note: "Note: The uploaded material does not mention [unsupported part]."
+
+MANDATORY TEXT-ONLY RULE:
+- NEVER output or embed visual diagrams, images, SVG, markdown image syntax `![]()`, image URLs, or Mermaid diagram code blocks (```mermaid).
+- If the study material mentions an architecture, flowchart, or diagram, explain its components, connections, and workflow purely in written text, numbered steps, or markdown tables.
 
 STRICT GROUNDING & FALLBACK RULES:
 - Base your answers EXCLUSIVELY on the provided retrieved document excerpts.
@@ -138,6 +142,9 @@ Provide a factual, document-grounded answer based strictly on the excerpts above
                 )
                 raw_answer = f"Based on your uploaded document, here are the key relevant excerpts:\n\n{bullet_points}"
 
+            # Post-processing: Strictly sanitize text-only output (strip images, SVG, Mermaid blocks)
+            raw_answer = self._sanitize_text_only(raw_answer)
+
             elapsed = round(time.perf_counter() - start_time, 2)
 
             # Determine answer status
@@ -156,3 +163,34 @@ Provide a factual, document-grounded answer based strictly on the excerpts above
         except Exception as exc:
             logger.error(f"Error communicating with OpenRouter LLM: {exc}")
             raise LLMProviderError(f"OpenRouter LLM service error: {str(exc)}")
+
+    @staticmethod
+    def _sanitize_text_only(text: str) -> str:
+        """
+        Enforces strict text-only formatting:
+        - Removes Markdown image syntax `![alt](url)`.
+        - Strips HTML <img> and <svg> tags.
+        - Replaces ```mermaid blocks with pure textual descriptions.
+        """
+        import re
+
+        # Remove markdown image syntax
+        text = re.sub(r"!\[(.*?)\]\(.*?\)", r"(Reference image: \1)", text)
+
+        # Remove HTML img/svg tags
+        text = re.sub(r"<(?:img|svg)[^>]*>.*?(?:</(?:img|svg)>)?", "", text, flags=re.IGNORECASE | re.DOTALL)
+
+        # Replace mermaid diagram blocks with text note
+        def _replace_mermaid(match):
+            diagram_body = match.group(1).strip()
+            # Extract plain text nodes from flowchart/sequence lines
+            node_labels = re.findall(r"\[(.*?)\]|\((.*?)\)|\"(.*?)\"", diagram_body)
+            flattened = [item for sub in node_labels for item in sub if item]
+            if flattened:
+                nodes_desc = " -> ".join(flattened[:8])
+                return f"\n*Flow / Process Sequence*: {nodes_desc}\n"
+            return "\n*(Process workflow described textually above)*\n"
+
+        text = re.sub(r"```mermaid(.*?)```", _replace_mermaid, text, flags=re.DOTALL | re.IGNORECASE)
+
+        return text

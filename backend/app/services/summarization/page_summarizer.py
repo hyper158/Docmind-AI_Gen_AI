@@ -14,10 +14,10 @@ from app.services.summarization.token_budget import (
     split_text_into_token_chunks,
 )
 from app.services.summarization.prompt_templates import (
-    PAGE_SUMMARIZATION_SYSTEM_PROMPT,
-    PAGE_SUMMARIZATION_USER_TEMPLATE,
-    CHUNK_SUMMARIZATION_SYSTEM_PROMPT,
-    CHUNK_SUMMARIZATION_USER_TEMPLATE,
+    PAGE_EDUCATIONAL_SYSTEM_PROMPT,
+    PAGE_EDUCATIONAL_USER_TEMPLATE,
+    CHUNK_EDUCATIONAL_SYSTEM_PROMPT,
+    CHUNK_EDUCATIONAL_USER_TEMPLATE,
     MERGE_PAGE_CHUNKS_USER_TEMPLATE,
 )
 
@@ -178,7 +178,7 @@ class PageSummarizer:
 
             chunk_summaries = []
             for idx, chunk_text in enumerate(chunks, start=1):
-                chunk_prompt = CHUNK_SUMMARIZATION_USER_TEMPLATE.format(
+                chunk_prompt = CHUNK_EDUCATIONAL_USER_TEMPLATE.format(
                     filename=page.filename,
                     page_number=page.page_number,
                     chunk_index=idx,
@@ -188,7 +188,7 @@ class PageSummarizer:
                 try:
                     c_sum = await self._invoke_llm_with_retry(
                         [
-                            SystemMessage(content=CHUNK_SUMMARIZATION_SYSTEM_PROMPT),
+                            SystemMessage(content=CHUNK_EDUCATIONAL_SYSTEM_PROMPT),
                             HumanMessage(content=chunk_prompt),
                         ],
                         context_name=f"Page {page.page_number} (Chunk {idx}/{len(chunks)})",
@@ -211,7 +211,7 @@ class PageSummarizer:
             try:
                 page_final_summary = await self._invoke_llm_with_retry(
                     [
-                        SystemMessage(content=PAGE_SUMMARIZATION_SYSTEM_PROMPT),
+                        SystemMessage(content=PAGE_EDUCATIONAL_SYSTEM_PROMPT),
                         HumanMessage(content=merge_prompt),
                     ],
                     context_name=f"Page {page.page_number} Merged Chunks",
@@ -240,7 +240,7 @@ class PageSummarizer:
             )
 
         # 3. Standard single-page summarization (fits within budget)
-        page_prompt = PAGE_SUMMARIZATION_USER_TEMPLATE.format(
+        page_prompt = PAGE_EDUCATIONAL_USER_TEMPLATE.format(
             filename=page.filename,
             page_number=page.page_number,
             page_text=raw_text,
@@ -249,7 +249,7 @@ class PageSummarizer:
         try:
             summary = await self._invoke_llm_with_retry(
                 [
-                    SystemMessage(content=PAGE_SUMMARIZATION_SYSTEM_PROMPT),
+                    SystemMessage(content=PAGE_EDUCATIONAL_SYSTEM_PROMPT),
                     HumanMessage(content=page_prompt),
                 ],
                 context_name=f"Page {page.page_number}",
